@@ -6,8 +6,8 @@
 <meta name="generator" content="Hugo 0.65.3" />
 
 
-<title>PostgreSQL Querying - Tianyi as a Developer</title>
-<meta property="og:title" content="PostgreSQL Querying - Tianyi as a Developer">
+<title>R Housekeeping - Tianyi as a Developer</title>
+<meta property="og:title" content="R Housekeeping - Tianyi as a Developer">
 
 
   <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
@@ -69,7 +69,7 @@
   <article class="article">
     
 
-    <h1 class="article-title">PostgreSQL Querying</h1>
+    <h1 class="article-title">R Housekeeping</h1>
 
     
 
@@ -77,32 +77,29 @@
       
 
 
-<div id="the" class="section level1">
-<h1>The</h1>
-<pre class="r"><code>library(DBI)
-con &lt;- DBI::dbConnect(RPostgres::Postgres(),
-               user = &#39;postgres&#39;,
-               password = getOption(&#39;db.password.postgres&#39;),
-               host = &#39;localhost&#39;,
-               port = &#39;5432&#39;)</code></pre>
-<pre class="sql"><code>select now();</code></pre>
-<div class="knitsql-table">
-<table>
-<caption><span id="tab:unnamed-chunk-2">Table 1: </span>1 records</caption>
-<thead>
-<tr class="header">
-<th align="left">now</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">2020-03-23 00:16:36</td>
-</tr>
-</tbody>
-</table>
+<p>This post is to remind myself of some not-so-common, but very useful operations in R.</p>
+<div id="rprofile-and-.renviron" class="section level1">
+<h1><code>.Rprofile</code> and <code>.Renviron</code></h1>
+<div id="options" class="section level2">
+<h2>Options</h2>
 </div>
-<pre class="python"><code>1 + 1</code></pre>
-<pre><code>## 2</code></pre>
+<div id="setting-path-in-.renviron" class="section level2">
+<h2>Setting <code>PATH</code> in <code>.Renviron</code></h2>
+<p>RStudio has a different <code>PATH</code> from bash’s, which can lead <code>command not found</code> when calling <code>system()</code> or <code>system2()</code>. You can set the <code>PATH</code> for RStudio in <code>.Renviron</code> file like this:</p>
+<pre><code>PATH=/additional/path:${PATH}</code></pre>
+<p>Note that curly braces are required.</p>
+</div>
+</div>
+<div id="package-management" class="section level1">
+<h1>Package Management</h1>
+<div id="installing-local-packages" class="section level2">
+<h2>Installing Local Packages:</h2>
+<p>First, open the R Project of the package in RStudio. At the <strong>Build</strong> panel, first ‘Check’ and then ‘Build Source Package’</p>
+<p>Then, at the command line:</p>
+<pre class="bash"><code>R CMD INSTALL /path/to/package.tar.gz &amp;&amp; rm /path/to/package.tar.gz</code></pre>
+<p>Alternatively, using <strong>devtools</strong>:</p>
+<pre class="r"><code>devtools::install_local(&#39;/path/to/package&#39;)</code></pre>
+</div>
 </div>
 
     </div>
@@ -140,6 +137,9 @@ con &lt;- DBI::dbConnect(RPostgres::Postgres(),
 
 
 
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 

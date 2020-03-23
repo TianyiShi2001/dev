@@ -12,11 +12,29 @@
     
     
     <item>
+      <title>housekeeping</title>
+      <link>/tags/housekeeping/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/housekeeping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>js</title>
       <link>/tags/js/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/js/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>knitr</title>
+      <link>/tags/knitr/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/knitr/</guid>
       <description></description>
     </item>
     

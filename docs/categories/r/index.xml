@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>r on Tianyi as a Developer</title>
+    <link>/categories/r/</link>
+    <description>Recent content in r on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Adding Support for Rust in knitr (R Markdown)</title>
+      <link>/r/adding-support-for-rust-in-knitr-r-markdown/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/r/adding-support-for-rust-in-knitr-r-markdown/</guid>
+      <description>R Markdown is a great tool for authoring documents that can be seamlessly rendered into various output formats. One of the best feature of R Markdown is being able to execute code chunks and format their output, which is backended by the knitr package. Although R, Python and SQL get more support for this feature, many other languages are also supported. This is usually achieved by evaluating the code in the code chunk using the corresponding engine in shell (where compilation is needed, a temporary binary is generated) and formatting the output retrieved from stdout.</description>
+    </item>
+    
+    <item>
+      <title>Fancy knitr</title>
+      <link>/r/fancy-knitr/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/r/fancy-knitr/</guid>
+      <description>knitr Supports Many More Languages Than You Might Expect Although it’s easy to insert R/Python/SQL/Bash/Rcpp/D3/Stan code chunks using RStudio’s GUI, many more languages are supported. The following commmand lists all languages available:
+names(knitr::knit_engines$get()) ## [1] &amp;quot;awk&amp;quot; &amp;quot;bash&amp;quot; &amp;quot;coffee&amp;quot; &amp;quot;gawk&amp;quot; &amp;quot;groovy&amp;quot; ## [6] &amp;quot;haskell&amp;quot; &amp;quot;lein&amp;quot; &amp;quot;mysql&amp;quot; &amp;quot;node&amp;quot; &amp;quot;octave&amp;quot; ## [11] &amp;quot;perl&amp;quot; &amp;quot;psql&amp;quot; &amp;quot;Rscript&amp;quot; &amp;quot;ruby&amp;quot; &amp;quot;sas&amp;quot; ## [16] &amp;quot;scala&amp;quot; &amp;quot;sed&amp;quot; &amp;quot;sh&amp;quot; &amp;quot;stata&amp;quot; &amp;quot;zsh&amp;quot; ## [21] &amp;quot;highlight&amp;quot; &amp;quot;Rcpp&amp;quot; &amp;quot;tikz&amp;quot; &amp;quot;dot&amp;quot; &amp;quot;c&amp;quot; ## [26] &amp;quot;fortran&amp;quot; &amp;quot;fortran95&amp;quot; &amp;quot;asy&amp;quot; &amp;quot;cat&amp;quot; &amp;quot;asis&amp;quot; ## [31] &amp;quot;stan&amp;quot; &amp;quot;block&amp;quot; &amp;quot;block2&amp;quot; &amp;quot;js&amp;quot; &amp;quot;css&amp;quot; ## [36] &amp;quot;sql&amp;quot; &amp;quot;go&amp;quot; &amp;quot;python&amp;quot; &amp;quot;julia&amp;quot; &amp;quot;sass&amp;quot; ## [41] &amp;quot;scss&amp;quot; &amp;quot;theorem&amp;quot; &amp;quot;lemma&amp;quot; &amp;quot;corollary&amp;quot; &amp;quot;proposition&amp;quot; ## [46] &amp;quot;conjecture&amp;quot; &amp;quot;definition&amp;quot; &amp;quot;example&amp;quot; &amp;quot;exercise&amp;quot; &amp;quot;proof&amp;quot; ## [51] &amp;quot;remark&amp;quot; &amp;quot;solution&amp;quot; Here I wrote a simple function in Rcpp that finds the nth fibonacci number.</description>
+    </item>
+    
+    <item>
+      <title>R Housekeeping</title>
+      <link>/r/r-housekeeping/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/r/r-housekeeping/</guid>
+      <description>This post is to remind myself of some not-so-common, but very useful operations in R.
+.Rprofile and .Renviron Options  Setting PATH in .Renviron RStudio has a different PATH from bash’s, which can lead command not found when calling system() or system2(). You can set the PATH for RStudio in .Renviron file like this:
+PATH=/additional/path:${PATH} Note that curly braces are required.
+  Package Management Installing Local Packages: First, open the R Project of the package in RStudio.</description>
+    </item>
+    
+  </channel>
+</rss>
