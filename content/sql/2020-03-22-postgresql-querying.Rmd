@@ -1,0 +1,35 @@
+---
+title: PostgreSQL Querying
+author: Tianyi Shi
+date: '2020-03-22'
+slug: postgresql-querying
+categories:
+  - sql
+tags:
+  - sql
+  - postgres
+---
+
+```{r setup, include=FALSE}
+options(db.password.postgres = '123qazpl,')
+```
+
+# The 
+
+```{r}
+library(DBI)
+con <- DBI::dbConnect(RPostgres::Postgres(),
+               user = 'postgres',
+               password = getOption('db.password.postgres'),
+               host = 'localhost',
+               port = '5432')
+```
+
+```{sql connection=con}
+select now();
+```
+
+```{python}
+1 + 1
+```
+

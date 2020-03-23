@@ -1,0 +1,124 @@
+---
+title: Working with Date and Time
+author: Tianyi Shi
+date: '2020-03-19'
+slug: working-with-date-and-time
+categories:
+  - sql
+tags:
+  - sql
+  - r
+  - datetime
+---
+
+```{r setup, include=FALSE}
+library(lubridate)
+  con <- DBI::dbConnect(RPostgres::Postgres(), host="localhost", dbname="postgres", user='postgres', password='123qazpl,')
+```
+
+In R, the package `lubridate` handles date and times. 
+
+# Basic Functions
+
+## Current Date/Time
+
+Current time:
+
+```{sql connection=con}
+SELECT NOW();
+```
+
+Current date:
+
+```{r}
+today()
+as_date(now())
+```
+
+```{sql connection=con}
+SELECT current_time;
+```
+
+```{sql connection=con}
+SELECT NOW()::DATE;
+```
+
+# Addition and Subtraction
+
+In R, `duration`s are always stored in seconds. This can lead to unexpected results:
+
+```{r}
+ymd(20000101) + dyears(1)
+```
+
+More often `period`s are used:
+
+```{r}
+ymd(20000101) + years(1)
+```
+
+```{r}
+ymd(20000101) + period(year=1, month=1, day=1, hour=1, minute=5, second=15)
+```
+
+
+In SQL, the behaviour is similar to R's `period`s:
+
+```{sql connection=con}
+SELECT DATE '2000-01-01' + INTERVAL '1 YEAR 1 MONTH 1 DAY 1 HOUR 5 MINUTE 15 SECOND' AS new_date;
+```
+
+Note that this is a datetime. To cast it to date:
+
+```{sql connection=con}
+SELECT (DATE '2000-01-01' + INTERVAL '1 YEAR')::DATE;
+```
+
+## Time difference (Period/Interval)
+
+```{r}
+span <- ymd(20000101) %--% ymd(20010101)
+span
+as.period(span)
+span / ddays(1)
+```
+
+This is similar to direct subtraction in 
+
+```{sql connection=con}
+SELECT DATE '2001-01-01' - DATE '2000-01-01' AS span
+```
+
+The `AGE` function in PostgreSQL is similar to the `%--%` operator followed by `as.period` in lubridate.
+
+```{sql connection=con}
+SELECT AGE(DATE '2001-01-01', DATE '2000-01-01') AS span
+```
+
+# Extracting Components
+
+In `lubridate`, you use functions such as `year` and `month` on date/datetime to extract components. In PostgreSQL, you use the `EXTRACT` function with this pattern: `EXTRACT(${COMPONENT} FROM date)` where `${COMPONENT}` can be one of those listed in the following table:
+
+|         lubridate          |         PostgreSQL         |     Note     |
+| :------------------------: | :------------------------: | :----------: |
+|           `year`           |           `YEAR`           |              |
+|          `month`           |          `MONTH`           |              |
+|      `day` or `mday`       |           `DAY`            | day of month |
+|           `wday`           |           `DOW`            | day of week  |
+|           `yday`           |           `DOY`            | day of year  |
+|             -              |         `CENTURY`          |              |
+| `hour`, `minute`, `second` | `HOUR`, `MINUTE`, `SECOND` |              |
+|             -              |       `MILLISECOND`        |              |
+
+```{r}
+month(now())
+```
+
+```{sql connection=con}
+SELECT EXTRACT(MILLISECOND FROM NOW());
+```
+
+
+
+
+In PostgreSQL, `DOW` (day of week) starts from Sunday.

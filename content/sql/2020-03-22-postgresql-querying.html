@@ -1,0 +1,41 @@
+---
+title: PostgreSQL Querying
+author: Tianyi Shi
+date: '2020-03-22'
+slug: postgresql-querying
+categories:
+  - sql
+tags:
+  - sql
+  - postgres
+---
+
+
+
+<div id="the" class="section level1">
+<h1>The</h1>
+<pre class="r"><code>library(DBI)
+con &lt;- DBI::dbConnect(RPostgres::Postgres(),
+               user = &#39;postgres&#39;,
+               password = getOption(&#39;db.password.postgres&#39;),
+               host = &#39;localhost&#39;,
+               port = &#39;5432&#39;)</code></pre>
+<pre class="sql"><code>select now();</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-2">Table 1: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2020-03-23 00:16:36</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="python"><code>1 + 1</code></pre>
+<pre><code>## 2</code></pre>
+</div>

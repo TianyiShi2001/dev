@@ -1,0 +1,32 @@
+---
+title: Tricks in Javascript
+author: Tianyi Shi
+date: '2020-03-23'
+slug: tricks-in-javascript
+categories:
+  - js
+tags:
+  - js
+  - tricks
+---
+
+```{javascript}
+1 + 1
+```
+
+
+If we fill an empty array with 4 zero-filled:
+
+```{javascript}
+let arr = [...Array(4).fill([...Array(4).fill(0)])]
+arr[1][2] = 1;
+arr
+```
+
+```{javascript}
+let arr = Array.from({ length: 4}, e => Array(4).fill(0));
+arr[1][2] = 1;
+arr
+```
+
+fsfafwe

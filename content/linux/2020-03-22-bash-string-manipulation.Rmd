@@ -1,0 +1,109 @@
+---
+title: Bash String Manipulation
+author: Tianyi Shi
+date: '2020-03-22'
+slug: bash-string-manipulation
+categories:
+  - bash
+tags:
+  - bash
+  - linux
+---
+
+
+# Bash String Variable Manipulation
+
+## Substring by Index
+
+- `${var:start:length}`
+- index starts from 1; similar to awk's `substr()`
+
+```{bash}
+chars=123456789ABCDE
+echo ${chars:3}
+echo ${chars:1:2}
+echo ${chars:1:2}
+
+```
+
+
+## Stripping 
+
+- `#` and `##`: stripping the shortest/longest match from start
+- `%` and `%%`: stripping the shortest/longest match from end
+
+```{bash}
+path=foo/bar/hello.txt
+echo ${path#*/}
+echo ${path##*/}      # get filename
+echo ${path%/*}       # get dir
+echo ${path%%/*}
+```
+
+## Replacement
+
+- `${var/pattern/replacement}` for replacing the first occurence
+- `${var//pattern/replacement}` for global replacement
+
+```{bash}
+path=foo/fizz/bar/fizz_bar.txt
+echo ${path/fizz/buzz}
+echo ${path//fizz/buzz}
+echo ${path/fizz*bar/buzz} # wildcards are allowed
+```
+
+- `#` matches only the start
+- `%` matches only the end
+
+```{bash}
+path=fizz/foo/bar/fizz
+echo ${path/#fizz/buzz}
+echo ${path/%fizz/buzz}
+```
+
+```{bash}
+path=foo/foo_data/txt_files/bar.txt
+echo ${path/#foo/bar}                   # changing base dir only
+echo ${path/%txt/log}                   # changing exts only
+```
+
+
+# awk
+
+# Exercises
+
+[Rotate for a max](https://www.codewars.com/kata/56a4872cbb65f3a610000026/solutions/shell)
+
+note: integer comparison overflow
+
+```{bash}
+max_rot() {
+  num=$1
+  l=${#num}
+  max=$num
+  for (( i=1; i<l; i++ )); do 
+    num=$(echo $num | awk -v i=$i -v l=$l '{print substr($0,1,i-1)substr($0,i+1,l-i+1)substr($0,i,1)}')
+    [[ $num > $max ]] && max=$num 
+  done
+  echo $max
+}
+max_rot 123456
+```
+
+```{bash}
+#!/bin/bash
+max_rot() {
+  num=$1
+  l=${#num}
+  max=$num
+  for (( i=0; i<l; i++ )); do
+    num=${num:0:$i}${num:$(($i+1))}${num:$i:1}
+    (( num > max )) && max=$num
+  done
+  echo $max
+  return 0
+}
+max_rot 123456
+```
+
+

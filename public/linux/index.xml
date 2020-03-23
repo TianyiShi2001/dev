@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linuxes on A Hugo website</title>
+    <link>/linux/</link>
+    <description>Recent content in Linuxes on A Hugo website</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/linux/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Bash String Manipulation</title>
+      <link>/linux/bash-string-manipulation/</link>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/linux/bash-string-manipulation/</guid>
+      <description>Bash String Variable Manipulation Substring by Index  ${var:start:length} index starts from 1; similar to awk’s substr()  chars=123456789ABCDE echo ${chars:3} echo ${chars:1:2} echo ${chars:1:2}  ## 456789ABCDE ## 23 ## 23  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
+    </item>
+    
+  </channel>
+</rss>
