@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.59.0" />
+
+
+<title>Working with Date and Time - Tianyi as a Developer</title>
+<meta property="og:title" content="Working with Date and Time - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Working with Date and Time</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<p>In R, the package <code>lubridate</code> handles date and times.</p>
+<div id="basic-functions" class="section level1">
+<h1>Basic Functions</h1>
+<div id="current-datetime" class="section level2">
+<h2>Current Date/Time</h2>
+<p>Current time:</p>
+<pre class="sql"><code>SELECT NOW();</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-1">Table 1: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2020-03-23 00:13:29</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Current date:</p>
+<pre class="r"><code>today()</code></pre>
+<pre><code>## [1] &quot;2020-03-23&quot;</code></pre>
+<pre class="r"><code>as_date(now())</code></pre>
+<pre><code>## [1] &quot;2020-03-23&quot;</code></pre>
+<pre class="sql"><code>SELECT current_time;</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-3">Table 2: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">current_time</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">00:13:29.623558</td>
+</tr>
+</tbody>
+</table>
+</div>
+<pre class="sql"><code>SELECT NOW()::DATE;</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-4">Table 3: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">now</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2020-03-23</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="addition-and-subtraction" class="section level1">
+<h1>Addition and Subtraction</h1>
+<p>In R, <code>duration</code>s are always stored in seconds. This can lead to unexpected results:</p>
+<pre class="r"><code>ymd(20000101) + dyears(1)</code></pre>
+<pre><code>## [1] &quot;2000-12-31&quot;</code></pre>
+<p>More often <code>period</code>s are used:</p>
+<pre class="r"><code>ymd(20000101) + years(1)</code></pre>
+<pre><code>## [1] &quot;2001-01-01&quot;</code></pre>
+<pre class="r"><code>ymd(20000101) + period(year=1, month=1, day=1, hour=1, minute=5, second=15)</code></pre>
+<pre><code>## [1] &quot;2001-02-02 01:05:15 UTC&quot;</code></pre>
+<p>In SQL, the behaviour is similar to R’s <code>period</code>s:</p>
+<pre class="sql"><code>SELECT DATE &#39;2000-01-01&#39; + INTERVAL &#39;1 YEAR 1 MONTH 1 DAY 1 HOUR 5 MINUTE 15 SECOND&#39; AS new_date;</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-8">Table 4: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">new_date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2001-02-02 01:05:15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Note that this is a datetime. To cast it to date:</p>
+<pre class="sql"><code>SELECT (DATE &#39;2000-01-01&#39; + INTERVAL &#39;1 YEAR&#39;)::DATE;</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-9">Table 5: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">date</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">2001-01-01</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="time-difference-periodinterval" class="section level2">
+<h2>Time difference (Period/Interval)</h2>
+<pre class="r"><code>span &lt;- ymd(20000101) %--% ymd(20010101)
+span</code></pre>
+<pre><code>## [1] 2000-01-01 UTC--2001-01-01 UTC</code></pre>
+<pre class="r"><code>as.period(span)</code></pre>
+<pre><code>## [1] &quot;1y 0m 0d 0H 0M 0S&quot;</code></pre>
+<pre class="r"><code>span / ddays(1)</code></pre>
+<pre><code>## [1] 366</code></pre>
+<p>This is similar to direct subtraction in</p>
+<pre class="sql"><code>SELECT DATE &#39;2001-01-01&#39; - DATE &#39;2000-01-01&#39; AS span</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-11">Table 6: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">span</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">366</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code>AGE</code> function in PostgreSQL is similar to the <code>%--%</code> operator followed by <code>as.period</code> in lubridate.</p>
+<pre class="sql"><code>SELECT AGE(DATE &#39;2001-01-01&#39;, DATE &#39;2000-01-01&#39;) AS span</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-12">Table 7: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">span</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1 year</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="extracting-components" class="section level1">
+<h1>Extracting Components</h1>
+<p>In <code>lubridate</code>, you use functions such as <code>year</code> and <code>month</code> on date/datetime to extract components. In PostgreSQL, you use the <code>EXTRACT</code> function with this pattern: <code>EXTRACT(${COMPONENT} FROM date)</code> where <code>${COMPONENT}</code> can be one of those listed in the following table:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">lubridate</th>
+<th align="center">PostgreSQL</th>
+<th align="center">Note</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><code>year</code></td>
+<td align="center"><code>YEAR</code></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"><code>month</code></td>
+<td align="center"><code>MONTH</code></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>day</code> or <code>mday</code></td>
+<td align="center"><code>DAY</code></td>
+<td align="center">day of month</td>
+</tr>
+<tr class="even">
+<td align="center"><code>wday</code></td>
+<td align="center"><code>DOW</code></td>
+<td align="center">day of week</td>
+</tr>
+<tr class="odd">
+<td align="center"><code>yday</code></td>
+<td align="center"><code>DOY</code></td>
+<td align="center">day of year</td>
+</tr>
+<tr class="even">
+<td align="center">-</td>
+<td align="center"><code>CENTURY</code></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><code>hour</code>, <code>minute</code>, <code>second</code></td>
+<td align="center"><code>HOUR</code>, <code>MINUTE</code>, <code>SECOND</code></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center">-</td>
+<td align="center"><code>MILLISECOND</code></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>month(now())</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="sql"><code>SELECT EXTRACT(MILLISECOND FROM NOW());</code></pre>
+<div class="knitsql-table">
+<table>
+<caption><span id="tab:unnamed-chunk-14">Table 8: </span>1 records</caption>
+<thead>
+<tr class="header">
+<th align="left">date_part</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">30124.907</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>In PostgreSQL, <code>DOW</code> (day of week) starts from Sunday.</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+
+</body>
+
+</html>
+

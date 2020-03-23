@@ -1,6 +1,7 @@
 baseurl = "/"
 languageCode = "en-us"
-title = "A Hugo website"
+title = "Tianyi as a Developer"
+publishDir = "docs"
 theme = "hugo-lithium"
 googleAnalytics = ""
 disqusShortname = ""

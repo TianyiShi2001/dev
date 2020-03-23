@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Js on Tianyi as a Developer</title>
+    <link>/js/</link>
+    <description>Recent content in Js on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tricks in Javascript</title>
+      <link>/js/tricks-in-javascript/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/js/tricks-in-javascript/</guid>
+      <description>1 + 1 If we fill an empty array with 4 zero-filled:
+let arr = [...Array(4).fill([...Array(4).fill(0)])] arr[1][2] = 1; arr let arr = Array.from({ length: 4}, e =&amp;gt; Array(4).fill(0)); arr[1][2] = 1; arr fsfafwe</description>
+    </item>
+    
+  </channel>
+</rss>

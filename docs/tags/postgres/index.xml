@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>postgres on Tianyi as a Developer</title>
+    <link>/tags/postgres/</link>
+    <description>Recent content in postgres on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 22 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/postgres/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>PostgreSQL Querying</title>
+      <link>/sql/postgresql-querying/</link>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/sql/postgresql-querying/</guid>
+      <description> The library(DBI) con &amp;lt;- DBI::dbConnect(RPostgres::Postgres(), user = &amp;#39;postgres&amp;#39;, password = getOption(&amp;#39;db.password.postgres&amp;#39;), host = &amp;#39;localhost&amp;#39;, port = &amp;#39;5432&amp;#39;) select now();  Table 1: 1 records  now    2020-03-23 00:16:36     1 + 1 ## 2  </description>
+    </item>
+    
+  </channel>
+</rss>

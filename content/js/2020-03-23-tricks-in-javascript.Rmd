@@ -10,23 +10,21 @@ tags:
   - tricks
 ---
 
-```{javascript}
-1 + 1
-```
-
 
 If we fill an empty array with 4 zero-filled:
 
-```{javascript}
+```{node}
 let arr = [...Array(4).fill([...Array(4).fill(0)])]
+console.log(arr);
 arr[1][2] = 1;
-arr
+console.log(arr);
 ```
 
-```{javascript}
+```{node}
 let arr = Array.from({ length: 4}, e => Array(4).fill(0));
+console.log(arr);
 arr[1][2] = 1;
-arr
+console.log(arr);
 ```
 
 fsfafwe

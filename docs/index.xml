@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tianyi as a Developer</title>
+    <link>/</link>
+    <description>Recent content on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Tricks in Javascript</title>
+      <link>/js/tricks-in-javascript/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/js/tricks-in-javascript/</guid>
+      <description>1 + 1 If we fill an empty array with 4 zero-filled:
+let arr = [...Array(4).fill([...Array(4).fill(0)])] arr[1][2] = 1; arr let arr = Array.from({ length: 4}, e =&amp;gt; Array(4).fill(0)); arr[1][2] = 1; arr fsfafwe</description>
+    </item>
+    
+    <item>
+      <title>Bash String Manipulation</title>
+      <link>/linux/bash-string-manipulation/</link>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/linux/bash-string-manipulation/</guid>
+      <description>Bash String Variable Manipulation Substring by Index  ${var:start:length} index starts from 1; similar to awk’s substr()  chars=123456789ABCDE echo ${chars:3} echo ${chars:1:2} echo ${chars:1:2}  ## 456789ABCDE ## 23 ## 23  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL Querying</title>
+      <link>/sql/postgresql-querying/</link>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/sql/postgresql-querying/</guid>
+      <description> The library(DBI) con &amp;lt;- DBI::dbConnect(RPostgres::Postgres(), user = &amp;#39;postgres&amp;#39;, password = getOption(&amp;#39;db.password.postgres&amp;#39;), host = &amp;#39;localhost&amp;#39;, port = &amp;#39;5432&amp;#39;) select now();  Table 1: 1 records  now    2020-03-23 00:16:36     1 + 1 ## 2  </description>
+    </item>
+    
+    <item>
+      <title>Rust Iterators</title>
+      <link>/rust/rust-iterators/</link>
+      <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/rust-iterators/</guid>
+      <description>hello</description>
+    </item>
+    
+    <item>
+      <title>Working with Date and Time</title>
+      <link>/sql/working-with-date-and-time/</link>
+      <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/sql/working-with-date-and-time/</guid>
+      <description>In R, the package lubridate handles date and times.
+Basic Functions Current Date/Time Current time:
+SELECT NOW();  Table 1: 1 records  now    2020-03-23 00:13:29     Current date:
+today() ## [1] &amp;quot;2020-03-23&amp;quot; as_date(now()) ## [1] &amp;quot;2020-03-23&amp;quot; SELECT current_time;  Table 2: 1 records  current_time    00:13:29.623558     SELECT NOW()::DATE;  Table 3: 1 records  now    2020-03-23       Addition and Subtraction In R, durations are always stored in seconds.</description>
+    </item>
+    
+    <item>
+      <title>Version Control in Node</title>
+      <link>/node/version-control-in-node/</link>
+      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/node/version-control-in-node/</guid>
+      <description>Use npx
+References https://stackoverflow.com/questions/52174381/yarn-not-installing-in-nvm-version-node-version</description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>/about/</link>
+      <pubDate>Thu, 05 May 2016 21:48:51 -0700</pubDate>
+      
+      <guid>/about/</guid>
+      <description>This is a &amp;ldquo;hello world&amp;rdquo; example website for the blogdown package. The theme was forked from @jrutheiser/hugo-lithium-theme and modified by Yihui Xie.</description>
+    </item>
+    
+  </channel>
+</rss>
