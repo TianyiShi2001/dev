@@ -17,8 +17,8 @@
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/js/tricks-in-javascript/</guid>
-      <description>1 + 1 If we fill an empty array with 4 zero-filled:
-let arr = [...Array(4).fill([...Array(4).fill(0)])] arr[1][2] = 1; arr let arr = Array.from({ length: 4}, e =&amp;gt; Array(4).fill(0)); arr[1][2] = 1; arr fsfafwe</description>
+      <description>If we fill an empty array with 4 zero-filled:
+let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] = 1; console.log(arr); ## [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ] ## [ [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ] ] let arr = Array.</description>
     </item>
     
     <item>

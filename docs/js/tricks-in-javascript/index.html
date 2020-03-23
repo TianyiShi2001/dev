@@ -48,9 +48,15 @@
     
     <li><a href="/about/">About</a></li>
     
-    <li><a href="https://github.com/rstudio/blogdown">GitHub</a></li>
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
     
-    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
     
   </ul>
 </nav>
@@ -71,14 +77,19 @@
       
 
 
-<pre class="javascript"><code>1 + 1</code></pre>
 <p>If we fill an empty array with 4 zero-filled:</p>
 <pre class="javascript"><code>let arr = [...Array(4).fill([...Array(4).fill(0)])]
+console.log(arr);
 arr[1][2] = 1;
-arr</code></pre>
+console.log(arr);</code></pre>
+<pre><code>## [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ]
+## [ [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ] ]</code></pre>
 <pre class="javascript"><code>let arr = Array.from({ length: 4}, e =&gt; Array(4).fill(0));
+console.log(arr);
 arr[1][2] = 1;
-arr</code></pre>
+console.log(arr);</code></pre>
+<pre><code>## [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ]
+## [ [ 0, 0, 0, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ]</code></pre>
 <p>fsfafwe</p>
 
     </div>
