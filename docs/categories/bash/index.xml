@@ -17,7 +17,7 @@
       <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/linux/bash-string-manipulation/</guid>
-      <description>Bash String Variable Manipulation Substring by Index  ${var:start:length} index starts from 1; similar to awk’s substr()  chars=123456789ABCDE echo ${chars:3} echo ${chars:1:2} echo ${chars:1:2}  ## 456789ABCDE ## 23 ## 23  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
+      <description>Bash String Variable Manipulation Substring by Index  Syntax: ${var:start:length} index starts from 0 (unlike awk’s substr(), which starts from 1)  chars=0123456789ABCDE echo ${chars:3} # chars[3] to end echo ${chars:1:0} # length=0 -&amp;gt; empty string echo ${chars:3:5} # chars[3:8] ## 3456789ABCDE ## ## 34567  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
     </item>
     
   </channel>

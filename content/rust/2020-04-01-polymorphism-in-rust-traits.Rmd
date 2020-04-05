@@ -1,0 +1,61 @@
+---
+title: Polymorphism in Rust Traits
+author: Tianyi Shi
+date: '2020-04-01'
+slug: polymorphism-in-rust-traits
+categories:
+  - rust
+tags:
+  - rust
+  - polymorphism
+---
+
+The `From` and `Into` traits are good examples of polymorphism.
+
+If a trait uses a generic type `T` in its signature, such as in `From`:
+
+```{rust, eval=FALSE}
+pub trait From<T>: Sized {
+    fn from(_: T) -> Self;
+}
+```
+
+then different 'variants' of the trait, where `<T>` is replaced with concrete types, can be implemented. Here is an example: 
+
+```{rust}
+struct Foo(i32);
+#[derive(Debug)]
+struct Bar(i32);
+
+impl From<i32> for Bar {
+    fn from(n: i32) -> Self {
+        Bar(n)
+    }
+}
+
+impl<'a> From<&'a Foo> for Bar {
+    fn from(foo: &Foo) -> Self {
+        Bar(foo.0)
+    }
+}
+
+fn new_bar<T>(x: T) -> Bar
+where
+    T: Into<Bar>,
+{
+    x.into()
+}
+
+fn main() {
+    let bar1 = Bar::from(1);
+    println!("{:?}", bar1);
+    let bar2 = Bar::from(&Foo(2));
+    println!("{:?}", bar2);
+    let bar3 = new_bar(3);
+    println!("{:?}", bar3);
+    let bar4 = new_bar(&Foo(4));
+    println!("{:?}", bar4)
+}
+```
+
+Here the `From` trait is implemented as `From<i32>` and `From<&'a Foo>` for `Bar`. After their implementation, `Bar::from()` can use either type as its argument. Under the hood, the type of the generic argument is inferred and used to decide whether to call `Bar::from<i32>()` or `Bar::from<&'a Foo>()`. These two types (`i32` and `&'a Foo`) also get `Into<Bar>` implementations for free, which makes `new_bar()` work.

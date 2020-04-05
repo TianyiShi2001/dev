@@ -1,0 +1,39 @@
+---
+title: Default Parameters & Optional Arguments in Rust
+author: Tianyi Shi
+date: '2020-03-24'
+slug: default-parameters-optional-arguments-in-rust
+categories:
+  - rust
+tags:
+  - function
+---
+
+
+
+<p>In Rust’s <code>std</code> docs, there is <a href="https://doc.rust-lang.org/std/fmt/#formatting-traits">an example</a> of using <code>unwrap_or()</code> to mimic a default parameter:</p>
+<pre class="rust"><code>use std::fmt;
+
+struct Vector2D {
+    x: isize,
+    y: isize,
+}
+
+impl fmt::Binary for Vector2D {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        let magnitude = (self.x * self.x + self.y * self.y) as f64;
+        let magnitude = magnitude.sqrt();
+
+        let decimals = f.precision().unwrap_or(3);
+        let string = format!(&quot;{:.*}&quot;, decimals, magnitude);
+        f.pad_integral(true, &quot;&quot;, &amp;string)
+    }
+}
+
+fn main() {
+    let myvector = Vector2D { x: 3, y: 4 };
+    println!(&quot;Hello {:10b}!&quot;, myvector); // defaults to 3 decimals
+    println!(&quot;Hello {:10.2b}!&quot;, myvector);
+}</code></pre>
+<pre><code>## Hello      5.000!
+## Hello       5.00!</code></pre>

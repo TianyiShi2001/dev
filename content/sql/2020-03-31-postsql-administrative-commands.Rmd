@@ -1,0 +1,20 @@
+---
+title: PostSQL Administrative Commands
+author: Tianyi Shi
+date: '2020-03-31'
+slug: postsql-administrative-commands
+categories:
+  - sql
+tags:
+  - postgres
+  - housekeeping
+---
+
+# User Management
+
+## Changing Password
+
+1. Edit `pg_hba.conf` to allow trust authorization temporarily
+1. `pg_ctl reload` to reload the config file
+1. Connect and issue `ALTER ROLE postgres WITH PASSWORD 'newpassword';`
+1. Edit `pg_hba.conf` again and restore the previous settings; `pg_ctl reload` again

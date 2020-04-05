@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>function on Tianyi as a Developer</title>
+    <link>/tags/function/</link>
+    <description>Recent content in function on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 02 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/function/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Closures in Rust</title>
+      <link>/rust/closures-in-rust/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/closures-in-rust/</guid>
+      <description>Using Closures and Functions as Arguments fn apply&amp;lt;F&amp;gt;(f: F) where F: Fn() { f(); } fn apply_mut&amp;lt;F&amp;gt;(mut f: F) where F: FnMut() { f(); } fn apply_once&amp;lt;F&amp;gt;(f: F) where F: FnOnce() { f(); } fn main() { use std::mem; let mut greeting = &amp;quot;hello&amp;quot;.to_owned(); let farewell = &amp;quot;goodbye&amp;quot;; // Capture 2 variables: `greeting` by value and // `farewell` by reference. let diary = || { println!(&amp;quot;Fn: {}, {}&amp;quot;, greeting, farewell); }; apply(diary); apply_mut(diary); apply_once(diary); // dyn Fn actually implements all Fn, FnMut and FnOnce // try &amp;amp;T, then &amp;amp;mut T, then T let diary_mut = || { greeting.</description>
+    </item>
+    
+    <item>
+      <title>Default Parameters &amp; Optional Arguments in Rust</title>
+      <link>/rust/default-parameters-optional-arguments-in-rust/</link>
+      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/default-parameters-optional-arguments-in-rust/</guid>
+      <description>In Rust’s std docs, there is an example of using unwrap_or() to mimic a default parameter:
+use std::fmt; struct Vector2D { x: isize, y: isize, } impl fmt::Binary for Vector2D { fn fmt(&amp;amp;self, f: &amp;amp;mut fmt::Formatter) -&amp;gt; fmt::Result { let magnitude = (self.x * self.x + self.y * self.y) as f64; let magnitude = magnitude.sqrt(); let decimals = f.precision().unwrap_or(3); let string = format!(&amp;quot;{:.*}&amp;quot;, decimals, magnitude); f.pad_integral(true, &amp;quot;&amp;quot;, &amp;amp;string) } } fn main() { let myvector = Vector2D { x: 3, y: 4 }; println!</description>
+    </item>
+    
+  </channel>
+</rss>

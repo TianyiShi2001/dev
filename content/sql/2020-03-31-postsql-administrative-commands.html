@@ -1,0 +1,26 @@
+---
+title: PostSQL Administrative Commands
+author: Tianyi Shi
+date: '2020-03-31'
+slug: postsql-administrative-commands
+categories:
+  - sql
+tags:
+  - postgres
+  - housekeeping
+---
+
+
+
+<div id="user-management" class="section level1">
+<h1>User Management</h1>
+<div id="changing-password" class="section level2">
+<h2>Changing Password</h2>
+<ol style="list-style-type: decimal">
+<li>Edit <code>pg_hba.conf</code> to allow trust authorization temporarily</li>
+<li><code>pg_ctl reload</code> to reload the config file</li>
+<li>Connect and issue <code>ALTER ROLE postgres WITH PASSWORD 'newpassword';</code></li>
+<li>Edit <code>pg_hba.conf</code> again and restore the previous settings; <code>pg_ctl reload</code> again</li>
+</ol>
+</div>
+</div>

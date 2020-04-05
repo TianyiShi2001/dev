@@ -6,10 +6,127 @@
     <description>Recent content in Tags on Tianyi as a Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>parser</title>
+      <link>/tags/parser/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/parser/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>serde</title>
+      <link>/tags/serde/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/serde/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>serialisation</title>
+      <link>/tags/serialisation/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/serialisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>oop</title>
+      <link>/tags/oop/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/oop/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r</title>
+      <link>/tags/r/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rust</title>
+      <link>/tags/rust/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/rust/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>closure</title>
+      <link>/tags/closure/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/closure/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>function</title>
+      <link>/tags/function/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/function/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>functional programming</title>
+      <link>/tags/functional-programming/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/functional-programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>polymorphism</title>
+      <link>/tags/polymorphism/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/polymorphism/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>housekeeping</title>
+      <link>/tags/housekeeping/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/housekeeping/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pointer</title>
+      <link>/tags/pointer/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/pointer/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>postgres</title>
+      <link>/tags/postgres/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/postgres/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>js</title>
@@ -48,15 +165,6 @@
     </item>
     
     <item>
-      <title>postgres</title>
-      <link>/tags/postgres/</link>
-      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/postgres/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>sql</title>
       <link>/tags/sql/</link>
       <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
@@ -80,51 +188,6 @@
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/tags/iterator/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>r</title>
-      <link>/tags/r/</link>
-      <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/r/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rust</title>
-      <link>/tags/rust/</link>
-      <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/rust/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>node</title>
-      <link>/tags/node/</link>
-      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/node/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>npm</title>
-      <link>/tags/npm/</link>
-      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/npm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>yarn</title>
-      <link>/tags/yarn/</link>
-      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/yarn/</guid>
       <description></description>
     </item>
     

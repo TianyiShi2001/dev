@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>parser on Tianyi as a Developer</title>
+    <link>/tags/parser/</link>
+    <description>Recent content in parser on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sun, 05 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/parser/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Parsing Escaped Quotes in Serde</title>
+      <link>/2020/04/05/parsing-escaped-quotes-in-serde/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/05/parsing-escaped-quotes-in-serde/</guid>
+      <description>library(stringr) use serde::Deserialize; use std::borrow::Cow; #[derive(Deserialize, Debug)] struct Comment&amp;lt;&amp;#39;a&amp;gt; { id: u32, text: Cow&amp;lt;&amp;#39;a, str&amp;gt;, } fn main() { let data: Vec&amp;lt;Comment&amp;gt; = serde_json::from_str( r#&amp;quot; [ { &amp;quot;id&amp;quot;: 345213, &amp;quot;text&amp;quot;: &amp;quot;Hello world!&amp;quot; }, { &amp;quot;id&amp;quot;: 2412345, &amp;quot;text&amp;quot;: &amp;quot;This is a double quote: \&amp;quot;&amp;quot; } ] &amp;quot;#, ) .unwrap(); println!( &amp;quot;{}&amp;quot;, data[1].text //.iter().map(|entry| entry.id).collect::&amp;lt;Vec&amp;lt;_&amp;gt;&amp;gt;() ); } The problem is that this deserilise into a borrowed string, then the lifetime of that borrowed string is tied to the input of the JSON string, and moreover, presumably must correspond to a substring of the original JSON.</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>Default Parameters &amp; Optional Arguments in Rust - Tianyi as a Developer</title>
+<meta property="og:title" content="Default Parameters &amp; Optional Arguments in Rust - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Default Parameters &amp; Optional Arguments in Rust</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<p>In Rust’s <code>std</code> docs, there is <a href="https://doc.rust-lang.org/std/fmt/#formatting-traits">an example</a> of using <code>unwrap_or()</code> to mimic a default parameter:</p>
+<pre class="rust"><code>use std::fmt;
+
+struct Vector2D {
+    x: isize,
+    y: isize,
+}
+
+impl fmt::Binary for Vector2D {
+    fn fmt(&amp;self, f: &amp;mut fmt::Formatter) -&gt; fmt::Result {
+        let magnitude = (self.x * self.x + self.y * self.y) as f64;
+        let magnitude = magnitude.sqrt();
+
+        let decimals = f.precision().unwrap_or(3);
+        let string = format!(&quot;{:.*}&quot;, decimals, magnitude);
+        f.pad_integral(true, &quot;&quot;, &amp;string)
+    }
+}
+
+fn main() {
+    let myvector = Vector2D { x: 3, y: 4 };
+    println!(&quot;Hello {:10b}!&quot;, myvector); // defaults to 3 decimals
+    println!(&quot;Hello {:10.2b}!&quot;, myvector);
+}</code></pre>
+<pre><code>## Hello      5.000!
+## Hello       5.00!</code></pre>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+
+</html>
+

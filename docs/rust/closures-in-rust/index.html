@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>Closures in Rust - Tianyi as a Developer</title>
+<meta property="og:title" content="Closures in Rust - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Closures in Rust</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<div id="using-closures-and-functions-as-arguments" class="section level1">
+<h1>Using Closures and Functions as Arguments</h1>
+<pre class="rust"><code>fn apply&lt;F&gt;(f: F) where
+    F: Fn() {
+    f();
+}
+
+fn apply_mut&lt;F&gt;(mut f: F) where
+    F: FnMut() {
+    f();
+}
+
+fn apply_once&lt;F&gt;(f: F) where
+    F: FnOnce() {
+    f();
+}
+
+fn main() {
+    use std::mem;
+
+    let mut greeting = &quot;hello&quot;.to_owned();
+    let farewell = &quot;goodbye&quot;;
+
+    // Capture 2 variables: `greeting` by value and
+    // `farewell` by reference.
+    let diary = || {
+        println!(&quot;Fn: {}, {}&quot;, greeting, farewell);
+    };
+    apply(diary);
+    apply_mut(diary);
+    apply_once(diary);
+    // dyn Fn actually implements all Fn, FnMut and FnOnce
+    // try &amp;T, then &amp;mut T, then T
+
+    let diary_mut = || {
+        greeting.push_str(&quot; world&quot;);
+        println!(&quot;FnMut: {}, {}&quot;, greeting, farewell);
+    };
+    apply_mut(diary_mut);
+
+    let diary_once = || {
+        greeting.push_str(&quot;!!!&quot;);
+        println!(&quot;FnMut: {}, {}&quot;, greeting, farewell);
+        mem::drop(greeting);
+    };
+    apply_once(diary_once);
+    // println!(&quot;{}&quot;, greeting); // won&#39;t work; moved
+    println!(&quot;{}&quot;, farewell)
+}</code></pre>
+<pre><code>## Fn: hello, goodbye
+## Fn: hello, goodbye
+## Fn: hello, goodbye
+## FnMut: hello world, goodbye
+## FnMut: hello world!!!, goodbye
+## goodbye</code></pre>
+</div>
+<div id="returning-closures" class="section level1">
+<h1>Returning Closures</h1>
+<ul>
+<li>closure types are anonymous, thus we return <code>impl Trait</code>, where <code>Trait</code> is one of <code>Fn</code>, <code>FnMut</code>, or <code>FnOnce</code>.</li>
+<li>the <code>move</code> keyword must be used, to move the variables defined in the factory function (closure maker) into the closure.</li>
+</ul>
+<pre class="rust"><code>fn make_suffix(suffix: &amp;str) -&gt; impl Fn(&amp;str) -&gt; String {
+    let suffix = suffix.to_owned();
+    move |s| {
+        let mut s = s.to_owned();
+        s.push_str(&quot; &quot;);
+        s.push_str(&amp;suffix);
+        s
+    }
+}
+
+fn make_prefix_mut(prefix: &amp;str) -&gt; impl FnMut(&amp;str) -&gt; String {
+    let mut prefix = prefix.to_owned();
+    move |s| {
+        prefix.push_str(&quot; &quot;);
+        prefix.push_str(s);
+        prefix.clone()
+    }
+}
+
+fn make_prefix_once(prefix: &amp;str) -&gt; impl FnOnce(&amp;str) -&gt; String {
+    let mut prefix = prefix.to_owned();
+    move |s| {
+        prefix.push_str(&quot; &quot;);
+        prefix.push_str(s);
+        prefix
+    }
+}
+
+fn main() {
+    let suffix_caplets = make_suffix(&quot;caplets&quot;);
+    let drug = suffix_caplets(&quot;ibuprofen&quot;);
+    println!(&quot;I have been prescribed some {}.&quot;, &amp;drug);
+    let mut prefix_her = make_prefix_mut(&quot;her&quot;);
+    let item = prefix_her(&quot;laptop&quot;);
+    println!(&quot;This is {}.&quot;, &amp;item);
+    let prefix_my = make_prefix_once(&quot;my&quot;);
+    let item = prefix_my(&quot;biochemistry textbooks&quot;);
+    println!(&quot;These are {}.&quot;, &amp;item);
+}</code></pre>
+<pre><code>## I have been prescribed some ibuprofen caplets.
+## This is her laptop.
+## These are my biochemistry textbooks.</code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+
+</html>
+

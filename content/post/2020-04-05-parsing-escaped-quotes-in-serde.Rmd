@@ -1,0 +1,87 @@
+---
+title: Parsing Escaped Quotes in Serde
+author: Tianyi Shi
+date: '2020-04-05'
+slug: parsing-escaped-quotes-in-serde
+categories:
+  - rust
+tags:
+  - serde
+  - parser
+  - serialisation
+---
+
+```{r setup, message=FALSE, warning=FALSE}
+library(stringr)
+```
+
+
+```{}
+use serde::Deserialize;
+use std::borrow::Cow;
+
+#[derive(Deserialize, Debug)]
+struct Comment<'a> {
+    id: u32,
+    text: Cow<'a, str>,
+}
+
+fn main() {
+    let data: Vec<Comment> = serde_json::from_str(
+        r#"
+            [
+                {
+                    "id": 345213,
+                    "text": "Hello world!"
+                },
+                {
+                    "id": 2412345,
+                    "text": "This is a double quote: \""
+                }
+            ]
+        "#,
+    )
+    .unwrap();
+    println!(
+        "{}",
+        data[1].text //.iter().map(|entry| entry.id).collect::<Vec<_>>()
+    );
+}
+```
+
+
+The problem is that this deserilise into a borrowed string, then the lifetime of that borrowed string is tied to the input of the JSON string, and moreover, presumably must correspond to a substring of the original JSON. Since this JSON string contains escape sequences, that isn't possible. e.g. A `"hell\"lo"` in a JSON string should actually deserialise to `hel"lo` in Rust `&str`, but this is not a substring of "hel\lo", so it doesn't work. It can be fixed by using a Cow<'a, str> instead.
+
+```{cargo}
+use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+struct Comment<'a> {
+    id: u32,
+    text: &'a str,
+}
+
+fn main() {
+    let data: Vec<Comment> =
+        serde_json::from_str(r#"[{"id": 345213,"text": "Hello world!"}]"#).unwrap();
+    println!("{:?}", data);
+}
+```
+
+```{}
+# generic, he, message=TRUE, warning=TRUE, command="gcc {}.c -o {} && ./{}"
+#include <stdio.h>
+int main(void)
+{
+    printf("Hello world!\n");
+    printf("The value of a is %d\n", a());
+
+    return 0;
+}
+
+int a(void)
+{
+    return 1;
+}
+```
+

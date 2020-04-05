@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pointer on Tianyi as a Developer</title>
+    <link>/tags/pointer/</link>
+    <description>Recent content in pointer on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 31 Mar 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/pointer/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Borrowing and Ownership in Rust</title>
+      <link>/rust/borrowing-and-ownership-in-rust/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/borrowing-and-ownership-in-rust/</guid>
+      <description>Slice Slices
+fn main() { let mut x = [1, 2, 3, 4, 5]; let r = &amp;amp;mut x; if let Some((first, rest)) = r.split_first_mut() { *first = 100; rest[0] = 99; rest[1] = 98; } assert_eq!(x, [100, 99, 98, 4, 5]) }   Deref Coersion in Functions fn main() { let v = 5; let r = &amp;amp;v; let r2 = &amp;amp;r; println!(&amp;quot;{}, {}&amp;quot;, is_five(r), is_five(r2)) } fn is_five(val: &amp;amp;i32) -&amp;gt; bool { *val == 5 } ## true, true  Smart Pointers Deref Coersion From The Book:</description>
+    </item>
+    
+  </channel>
+</rss>

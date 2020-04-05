@@ -1,0 +1,183 @@
+---
+title: OOP in Rust
+author: Tianyi Shi
+date: '2020-04-01'
+slug: oop-in-rust
+categories:
+  - rust
+tags:
+  - oop
+  - rust
+---
+
+# Example: Post
+
+## Using Enum
+
+```{rust}
+enum PostState {
+    Draft,
+    PendingReview,
+    Published,
+}
+
+struct Post {
+    text: String,
+    state: PostState,
+}
+
+impl Post {
+    fn new() -> Self {
+        Post {
+            text: String::new(),
+            state: PostState::Draft,
+        }
+    }
+    fn add_text(&mut self, s: &str) {
+        self.text.push_str(s)
+    }
+    fn request_review(&mut self) {
+        self.state = PostState::PendingReview
+    }
+    fn approve(&mut self) {
+        self.state = PostState::Published
+    }
+    fn content(&self) -> &str {
+        if let PostState::Published = self.state {
+            &self.text
+        } else {
+            ""
+        }
+    }
+}
+
+fn main() {
+    let mut post = Post::new();
+    post.add_text("I need sex.");
+    println!("content: {}", post.content());
+    post.request_review();
+    post.approve();
+    println!("content: {}", post.content());
+}
+```
+
+## Using the State Pattern
+
+```{rust}
+trait State {
+    fn add_text(&self, post: &mut String, text: &str) {
+        println!("Cannot add text!")
+    }
+    fn request_review(self: Box<Self>) -> Box<dyn State>;
+    fn approve(self: Box<Self>) -> Box<dyn State>;
+    fn reject(self: Box<Self>) -> Box<dyn State>;
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        ""
+    }
+}
+
+struct Draft {}
+
+struct PendingReview {
+    count: usize,
+}
+
+struct Published {}
+
+impl State for Draft {
+    fn add_text(&self, post: &mut String, text: &str) {
+        post.push_str(text)
+    }
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        Box::new(PendingReview { count: 0 })
+    }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+    fn reject(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+impl State for PendingReview {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        let i = self.count + 1;
+        if i > 1 {
+            Box::new(Published {})
+        } else {
+            Box::new(PendingReview { count: i })
+        }
+    }
+    fn reject(self: Box<Self>) -> Box<dyn State> {
+        Box::new(Draft {})
+    }
+}
+impl State for Published {
+    fn request_review(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+    fn approve(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+    fn content<'a>(&self, post: &'a Post) -> &'a str {
+        &post.content
+    }
+    fn reject(self: Box<Self>) -> Box<dyn State> {
+        self
+    }
+}
+
+struct Post {
+    state: Option<Box<dyn State>>,
+    content: String,
+}
+
+impl Post {
+    pub fn new() -> Post {
+        Post {
+            state: Some(Box::new(Draft {})),
+            content: String::new(),
+        }
+    }
+    pub fn add_text(&mut self, text: &str) {
+        self.state
+            .as_ref()
+            .unwrap()
+            .add_text(&mut self.content, text)
+    }
+    pub fn request_review(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.request_review())
+        }
+    }
+    pub fn approve(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.approve())
+        }
+    }
+    pub fn reject(&mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.reject())
+        }
+    }
+    pub fn content(&self) -> &str {
+        self.state.as_ref().unwrap().content(self)
+    }
+}
+
+fn main() {
+    let mut post = Post::new();
+    post.add_text("Hello world!");
+    println!("content: '{}'", post.content());
+    post.request_review();
+    post.reject();
+    post.request_review();
+    post.add_text("Hello?"); // cannot add text
+    post.approve();
+    post.approve();
+    println!("content: '{}'", post.content());
+}
+```
+

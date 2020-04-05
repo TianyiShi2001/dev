@@ -12,23 +12,14 @@
     
     
     <item>
-      <title>Tricks in Javascript</title>
-      <link>/js/tricks-in-javascript/</link>
+      <title>Creating Multidimensional Arrays in Javascript</title>
+      <link>/js/js-ndarray/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>/js/tricks-in-javascript/</guid>
-      <description>If we fill an empty array with 4 zero-filled:
-let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] = 1; console.log(arr); ## [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ] ## [ [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ] ] let arr = Array.</description>
-    </item>
-    
-    <item>
-      <title>Version Control in Node</title>
-      <link>/node/version-control-in-node/</link>
-      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/node/version-control-in-node/</guid>
-      <description>Use npx
-References https://stackoverflow.com/questions/52174381/yarn-not-installing-in-nvm-version-node-version</description>
+      <guid>/js/js-ndarray/</guid>
+      <description>Initialising multidimensional arrays in Javascript can be tricky because some initialisation approches lead to unexpected behaviour due to shallow copying.
+2D Arrays (Matrices) If we try to create a 4 \(\times\) 4 matrix by filling an empty array with 4 zero-filled arrays each with 4 zeros using the Array(n).fill(e) syntax:
+let arr = Array(4).fill(Array(4).fill(0)); console.table(arr); ┌─────────┬───┬───┬───┬───┐ │ (index) │ 0 │ 1 │ 2 │ 3 │ ├─────────┼───┼───┼───┼───┤ │ 0 │ 0 │ 0 │ 0 │ 0 │ │ 1 │ 0 │ 0 │ 0 │ 0 │ │ 2 │ 0 │ 0 │ 0 │ 0 │ │ 3 │ 0 │ 0 │ 0 │ 0 │ └─────────┴───┴───┴───┴───┘ and then try to change the element \(arr_{1,2}\):</description>
     </item>
     
   </channel>

@@ -1,0 +1,58 @@
+---
+title: Polymorphism in Rust Traits
+author: Tianyi Shi
+date: '2020-04-01'
+slug: polymorphism-in-rust-traits
+categories:
+  - rust
+tags:
+  - rust
+  - polymorphism
+---
+
+
+
+<p>The <code>From</code> and <code>Into</code> traits are good examples of polymorphism.</p>
+<p>If a trait uses a generic type <code>T</code> in its signature, such as in <code>From</code>:</p>
+<pre class="rust"><code>pub trait From&lt;T&gt;: Sized {
+    fn from(_: T) -&gt; Self;
+}</code></pre>
+<p>then different ‘variants’ of the trait, where <code>&lt;T&gt;</code> is replaced with concrete types, can be implemented. Here is an example:</p>
+<pre class="rust"><code>struct Foo(i32);
+#[derive(Debug)]
+struct Bar(i32);
+
+impl From&lt;i32&gt; for Bar {
+    fn from(n: i32) -&gt; Self {
+        Bar(n)
+    }
+}
+
+impl&lt;&#39;a&gt; From&lt;&amp;&#39;a Foo&gt; for Bar {
+    fn from(foo: &amp;Foo) -&gt; Self {
+        Bar(foo.0)
+    }
+}
+
+fn new_bar&lt;T&gt;(x: T) -&gt; Bar
+where
+    T: Into&lt;Bar&gt;,
+{
+    x.into()
+}
+
+fn main() {
+    let bar1 = Bar::from(1);
+    println!(&quot;{:?}&quot;, bar1);
+    let bar2 = Bar::from(&amp;Foo(2));
+    println!(&quot;{:?}&quot;, bar2);
+    let bar3 = new_bar(3);
+    println!(&quot;{:?}&quot;, bar3);
+    let bar4 = new_bar(&amp;Foo(4));
+    println!(&quot;{:?}&quot;, bar4)
+}</code></pre>
+<pre><code>## Bar(1)
+## Bar(2)
+## Bar(3)
+## Bar(4)</code></pre>
+<p>Here the <code>From</code> trait is implemented as <code>From&lt;i32&gt;</code> and <code>From&lt;&amp;'a Foo&gt;</code> for <code>Bar</code>. After their implementation, <code>Bar::from()</code> can use either type as its argument. Under the hood, the type of the generic argument is inferred and used to decide whether to call <code>Bar::from&lt;i32&gt;()</code> or <code>Bar::from&lt;&amp;'a Foo&gt;()</code>. These two types (<code>i32</code> and <code>&amp;'a Foo</code>) also get <code>Into&lt;Bar&gt;</code> implementations for free, which makes <code>new_bar()</code> work.</p>

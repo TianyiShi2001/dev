@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>Polymorphism in Rust Traits - Tianyi as a Developer</title>
+<meta property="og:title" content="Polymorphism in Rust Traits - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Polymorphism in Rust Traits</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<p>The <code>From</code> and <code>Into</code> traits are good examples of polymorphism.</p>
+<p>If a trait uses a generic type <code>T</code> in its signature, such as in <code>From</code>:</p>
+<pre class="rust"><code>pub trait From&lt;T&gt;: Sized {
+    fn from(_: T) -&gt; Self;
+}</code></pre>
+<p>then different ‘variants’ of the trait, where <code>&lt;T&gt;</code> is replaced with concrete types, can be implemented. Here is an example:</p>
+<pre class="rust"><code>struct Foo(i32);
+#[derive(Debug)]
+struct Bar(i32);
+
+impl From&lt;i32&gt; for Bar {
+    fn from(n: i32) -&gt; Self {
+        Bar(n)
+    }
+}
+
+impl&lt;&#39;a&gt; From&lt;&amp;&#39;a Foo&gt; for Bar {
+    fn from(foo: &amp;Foo) -&gt; Self {
+        Bar(foo.0)
+    }
+}
+
+fn new_bar&lt;T&gt;(x: T) -&gt; Bar
+where
+    T: Into&lt;Bar&gt;,
+{
+    x.into()
+}
+
+fn main() {
+    let bar1 = Bar::from(1);
+    println!(&quot;{:?}&quot;, bar1);
+    let bar2 = Bar::from(&amp;Foo(2));
+    println!(&quot;{:?}&quot;, bar2);
+    let bar3 = new_bar(3);
+    println!(&quot;{:?}&quot;, bar3);
+    let bar4 = new_bar(&amp;Foo(4));
+    println!(&quot;{:?}&quot;, bar4)
+}</code></pre>
+<pre><code>## Bar(1)
+## Bar(2)
+## Bar(3)
+## Bar(4)</code></pre>
+<p>Here the <code>From</code> trait is implemented as <code>From&lt;i32&gt;</code> and <code>From&lt;&amp;'a Foo&gt;</code> for <code>Bar</code>. After their implementation, <code>Bar::from()</code> can use either type as its argument. Under the hood, the type of the generic argument is inferred and used to decide whether to call <code>Bar::from&lt;i32&gt;()</code> or <code>Bar::from&lt;&amp;'a Foo&gt;()</code>. These two types (<code>i32</code> and <code>&amp;'a Foo</code>) also get <code>Into&lt;Bar&gt;</code> implementations for free, which makes <code>new_bar()</code> work.</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+
+</html>
+

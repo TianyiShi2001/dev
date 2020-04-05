@@ -1,0 +1,102 @@
+---
+title: Constructors of Rust structs
+author: Tianyi Shi
+date: '2020-04-04'
+slug: constructors-of-rust-structs
+categories:
+  - rust
+tags:
+  - rust
+  - oop
+---
+
+
+
+<div id="the-new-method" class="section level1">
+<h1>The <code>new()</code> Method</h1>
+<p>The <code>new()</code> method is nothing special but it’s idiomatically used to initialise a new instance of a <code>struct</code> with empty fields, for example:</p>
+<pre class="rust"><code>#[derive(Debug)]
+struct Car&lt;&#39;a&gt; {
+    brand: &amp;&#39;a str,
+    model: &amp;&#39;a str,
+    color: &amp;&#39;a str,
+}
+impl&lt;&#39;a&gt; Car&lt;&#39;a&gt; {
+    fn new() -&gt; Self {
+        Car {
+            brand: &quot;&quot;,
+            model: &quot;&quot;,
+            color: &quot;&quot;,
+        }
+    }
+}
+fn main(){
+  println!(&quot;{:?}&quot;, Car::new())
+}</code></pre>
+<pre><code>## Car { brand: &quot;&quot;, model: &quot;&quot;, color: &quot;&quot; }</code></pre>
+</div>
+<div id="builder-methods" class="section level1">
+<h1>Builder Methods</h1>
+<p>For <code>struct</code>s with many fields (some of which may be optional), it’s common to define a number of builder methods to construct them.</p>
+<p>It’s preferable to use non-consuming builders, which takes in a mutable reference of self (<code>&amp;mut self</code>) and returns the same type. This makes it easy for both chained and stepwise construction:</p>
+<pre class="rust"><code>#[derive(Clone)]
+struct Car&lt;&#39;a&gt; {
+    brand: &amp;&#39;a str,
+    model: &amp;&#39;a str,
+    color: &amp;&#39;a str,
+}
+impl&lt;&#39;a&gt; Car&lt;&#39;a&gt; {
+    fn new() -&gt; Self {
+        Car {
+            brand: &quot;&quot;,
+            model: &quot;&quot;,
+            color: &quot;&quot;,
+        }
+    }
+    fn brand(&amp;mut self, brand: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.brand = brand;
+        self
+    }
+    fn model(&amp;mut self, model: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.model = model;
+        self
+    }
+    fn color(&amp;mut self, color: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.color = color;
+        self
+    }
+    fn drive(&amp;self, speed: u8) {
+        println!(
+            &quot;Driving {} {} {} at {} km/h&quot;,
+            self.color, self.brand, self.model, speed
+        )
+    }
+}
+
+fn main() {
+    // chained
+    Car::new()
+        .color(&quot;white&quot;)
+        .brand(&quot;Lexus&quot;)
+        .model(&quot;LC&quot;)
+        .drive(60);
+        
+    // stepwise
+    let mut car = Car::new();
+    car.brand(&quot;Infinity&quot;).model(&quot;Q70L&quot;);
+    car.color(&quot;black&quot;);
+    car.drive(80);
+
+    // chained construction followed by ownership transfer
+    let car = Car::new()
+        .brand(&quot;Nissan&quot;)
+        .model(&quot;370Z&quot;)
+        .color(&quot;red&quot;)
+        .to_owned();
+    car.drive(120);
+}</code></pre>
+<pre><code>## Driving white Lexus LC at 60 km/h
+## Driving black Infinity Q70L at 80 km/h
+## Driving red Nissan 370Z at 120 km/h</code></pre>
+<p>In order to construct a <code>Car</code> by chaining builder methods and then bind this <code>Car</code> to a variable, <code>to_owned()</code> must be called at the end of the chain to convert the mutable reference to owned type, and this requires that the <code>ToOwned</code> trait is implemented by <code>Car</code>. Adding <code>#[derive(Clone)]</code> above the struct definition fulfills this.</p>
+</div>

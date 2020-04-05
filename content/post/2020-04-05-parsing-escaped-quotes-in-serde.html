@@ -1,0 +1,75 @@
+---
+title: Parsing Escaped Quotes in Serde
+author: Tianyi Shi
+date: '2020-04-05'
+slug: parsing-escaped-quotes-in-serde
+categories:
+  - rust
+tags:
+  - serde
+  - parser
+  - serialisation
+---
+
+
+
+<pre class="r"><code>library(stringr)</code></pre>
+<pre><code>use serde::Deserialize;
+use std::borrow::Cow;
+
+#[derive(Deserialize, Debug)]
+struct Comment&lt;&#39;a&gt; {
+    id: u32,
+    text: Cow&lt;&#39;a, str&gt;,
+}
+
+fn main() {
+    let data: Vec&lt;Comment&gt; = serde_json::from_str(
+        r#&quot;
+            [
+                {
+                    &quot;id&quot;: 345213,
+                    &quot;text&quot;: &quot;Hello world!&quot;
+                },
+                {
+                    &quot;id&quot;: 2412345,
+                    &quot;text&quot;: &quot;This is a double quote: \&quot;&quot;
+                }
+            ]
+        &quot;#,
+    )
+    .unwrap();
+    println!(
+        &quot;{}&quot;,
+        data[1].text //.iter().map(|entry| entry.id).collect::&lt;Vec&lt;_&gt;&gt;()
+    );
+}</code></pre>
+<p>The problem is that this deserilise into a borrowed string, then the lifetime of that borrowed string is tied to the input of the JSON string, and moreover, presumably must correspond to a substring of the original JSON. Since this JSON string contains escape sequences, that isn’t possible. e.g. A <code>&quot;hell\&quot;lo&quot;</code> in a JSON string should actually deserialise to <code>hel&quot;lo</code> in Rust <code>&amp;str</code>, but this is not a substring of “hel”, so it doesn’t work. It can be fixed by using a Cow&lt;’a, str&gt; instead.</p>
+<pre class="rust"><code>use serde::Deserialize;
+
+#[derive(Deserialize, Debug)]
+struct Comment&lt;&#39;a&gt; {
+    id: u32,
+    text: &amp;&#39;a str,
+}
+
+fn main() {
+    let data: Vec&lt;Comment&gt; =
+        serde_json::from_str(r#&quot;[{&quot;id&quot;: 345213,&quot;text&quot;: &quot;Hello world!&quot;}]&quot;#).unwrap();
+    println!(&quot;{:?}&quot;, data);
+}</code></pre>
+<pre><code>## [Comment { id: 345213, text: &quot;Hello world!&quot; }]</code></pre>
+<pre><code># generic, he, message=TRUE, warning=TRUE, command=&quot;gcc {}.c -o {} &amp;&amp; ./{}&quot;
+#include &lt;stdio.h&gt;
+int main(void)
+{
+    printf(&quot;Hello world!\n&quot;);
+    printf(&quot;The value of a is %d\n&quot;, a());
+
+    return 0;
+}
+
+int a(void)
+{
+    return 1;
+}</code></pre>

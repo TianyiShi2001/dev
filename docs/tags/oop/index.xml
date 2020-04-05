@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>oop on Tianyi as a Developer</title>
+    <link>/tags/oop/</link>
+    <description>Recent content in oop on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 04 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/oop/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Constructors of Rust structs</title>
+      <link>/rust/constructors-of-rust-structs/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/constructors-of-rust-structs/</guid>
+      <description>The new() Method The new() method is nothing special but it’s idiomatically used to initialise a new instance of a struct with empty fields, for example:
+#[derive(Debug)] struct Car&amp;lt;&amp;#39;a&amp;gt; { brand: &amp;amp;&amp;#39;a str, model: &amp;amp;&amp;#39;a str, color: &amp;amp;&amp;#39;a str, } impl&amp;lt;&amp;#39;a&amp;gt; Car&amp;lt;&amp;#39;a&amp;gt; { fn new() -&amp;gt; Self { Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot;, } } } fn main(){ println!(&amp;quot;{:?}&amp;quot;, Car::new()) } ## Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot; }  Builder Methods For structs with many fields (some of which may be optional), it’s common to define a number of builder methods to construct them.</description>
+    </item>
+    
+    <item>
+      <title>OOP in Rust</title>
+      <link>/rust/oop-in-rust/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/oop-in-rust/</guid>
+      <description>Example: Post Using Enum enum PostState { Draft, PendingReview, Published, } struct Post { text: String, state: PostState, } impl Post { fn new() -&amp;gt; Self { Post { text: String::new(), state: PostState::Draft, } } fn add_text(&amp;amp;mut self, s: &amp;amp;str) { self.text.push_str(s) } fn request_review(&amp;amp;mut self) { self.state = PostState::PendingReview } fn approve(&amp;amp;mut self) { self.state = PostState::Published } fn content(&amp;amp;self) -&amp;gt; &amp;amp;str { if let PostState::Published = self.state { &amp;amp;self.</description>
+    </item>
+    
+  </channel>
+</rss>

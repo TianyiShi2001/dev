@@ -4,6 +4,146 @@
   
   <url>
     <loc>/categories/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/parser/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/2020/04/05/parsing-escaped-quotes-in-serde/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/post/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/rust/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/serde/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/serialisation/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/constructors-of-rust-structs/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/oop/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/r/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/rust/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/</loc>
+    <lastmod>2020-04-04T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/closure/</loc>
+    <lastmod>2020-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/closures-in-rust/</loc>
+    <lastmod>2020-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/function/</loc>
+    <lastmod>2020-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/functional-programming/</loc>
+    <lastmod>2020-04-02T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/oop-in-rust/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/polymorphism/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/polymorphism-in-rust-traits/</loc>
+    <lastmod>2020-04-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/borrowing-and-ownership-in-rust/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/housekeeping/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/pointer/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/postgres/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/sql/postsql-administrative-commands/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/sql/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/sql/</loc>
+    <lastmod>2020-03-31T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/rust/default-parameters-optional-arguments-in-rust/</loc>
+    <lastmod>2020-03-24T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/js/js-ndarray/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -13,32 +153,17 @@
   </url>
   
   <url>
-    <loc>/categories/js/</loc>
-    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/js/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/tags/</loc>
-    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/</loc>
+    <loc>/categories/js/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/tricks/</loc>
-    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/js/tricks-in-javascript/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -68,27 +193,12 @@
   </url>
   
   <url>
-    <loc>/tags/postgres/</loc>
-    <lastmod>2020-03-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/sql/postgresql-querying/</loc>
     <lastmod>2020-03-22T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/tags/sql/</loc>
-    <lastmod>2020-03-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/sql/</loc>
-    <lastmod>2020-03-22T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/sql/</loc>
     <lastmod>2020-03-22T00:00:00+00:00</lastmod>
   </url>
   
@@ -103,27 +213,7 @@
   </url>
   
   <url>
-    <loc>/tags/r/</loc>
-    <lastmod>2020-03-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/rust/</loc>
-    <lastmod>2020-03-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/rust/</loc>
-    <lastmod>2020-03-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/rust/rust-iterators/</loc>
-    <lastmod>2020-03-19T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/rust/</loc>
     <lastmod>2020-03-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -133,37 +223,12 @@
   </url>
   
   <url>
-    <loc>/tags/node/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/node/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/node/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/npm/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/node/version-control-in-node/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/yarn/</loc>
-    <lastmod>2020-03-04T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/about/</loc>
+    <lastmod>2016-05-05T21:48:51-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/</loc>
     <lastmod>2016-05-05T21:48:51-07:00</lastmod>
   </url>
   

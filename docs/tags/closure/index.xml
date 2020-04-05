@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>closure on Tianyi as a Developer</title>
+    <link>/tags/closure/</link>
+    <description>Recent content in closure on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 02 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/closure/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Closures in Rust</title>
+      <link>/rust/closures-in-rust/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/closures-in-rust/</guid>
+      <description>Using Closures and Functions as Arguments fn apply&amp;lt;F&amp;gt;(f: F) where F: Fn() { f(); } fn apply_mut&amp;lt;F&amp;gt;(mut f: F) where F: FnMut() { f(); } fn apply_once&amp;lt;F&amp;gt;(f: F) where F: FnOnce() { f(); } fn main() { use std::mem; let mut greeting = &amp;quot;hello&amp;quot;.to_owned(); let farewell = &amp;quot;goodbye&amp;quot;; // Capture 2 variables: `greeting` by value and // `farewell` by reference. let diary = || { println!(&amp;quot;Fn: {}, {}&amp;quot;, greeting, farewell); }; apply(diary); apply_mut(diary); apply_once(diary); // dyn Fn actually implements all Fn, FnMut and FnOnce // try &amp;amp;T, then &amp;amp;mut T, then T let diary_mut = || { greeting.</description>
+    </item>
+    
+  </channel>
+</rss>

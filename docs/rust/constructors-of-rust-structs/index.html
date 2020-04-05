@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>Constructors of Rust structs - Tianyi as a Developer</title>
+<meta property="og:title" content="Constructors of Rust structs - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Constructors of Rust structs</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<div id="the-new-method" class="section level1">
+<h1>The <code>new()</code> Method</h1>
+<p>The <code>new()</code> method is nothing special but it’s idiomatically used to initialise a new instance of a <code>struct</code> with empty fields, for example:</p>
+<pre class="rust"><code>#[derive(Debug)]
+struct Car&lt;&#39;a&gt; {
+    brand: &amp;&#39;a str,
+    model: &amp;&#39;a str,
+    color: &amp;&#39;a str,
+}
+impl&lt;&#39;a&gt; Car&lt;&#39;a&gt; {
+    fn new() -&gt; Self {
+        Car {
+            brand: &quot;&quot;,
+            model: &quot;&quot;,
+            color: &quot;&quot;,
+        }
+    }
+}
+fn main(){
+  println!(&quot;{:?}&quot;, Car::new())
+}</code></pre>
+<pre><code>## Car { brand: &quot;&quot;, model: &quot;&quot;, color: &quot;&quot; }</code></pre>
+</div>
+<div id="builder-methods" class="section level1">
+<h1>Builder Methods</h1>
+<p>For <code>struct</code>s with many fields (some of which may be optional), it’s common to define a number of builder methods to construct them.</p>
+<p>It’s preferable to use non-consuming builders, which takes in a mutable reference of self (<code>&amp;mut self</code>) and returns the same type. This makes it easy for both chained and stepwise construction:</p>
+<pre class="rust"><code>#[derive(Clone)]
+struct Car&lt;&#39;a&gt; {
+    brand: &amp;&#39;a str,
+    model: &amp;&#39;a str,
+    color: &amp;&#39;a str,
+}
+impl&lt;&#39;a&gt; Car&lt;&#39;a&gt; {
+    fn new() -&gt; Self {
+        Car {
+            brand: &quot;&quot;,
+            model: &quot;&quot;,
+            color: &quot;&quot;,
+        }
+    }
+    fn brand(&amp;mut self, brand: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.brand = brand;
+        self
+    }
+    fn model(&amp;mut self, model: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.model = model;
+        self
+    }
+    fn color(&amp;mut self, color: &amp;&#39;a str) -&gt; &amp;mut Self {
+        self.color = color;
+        self
+    }
+    fn drive(&amp;self, speed: u8) {
+        println!(
+            &quot;Driving {} {} {} at {} km/h&quot;,
+            self.color, self.brand, self.model, speed
+        )
+    }
+}
+
+fn main() {
+    // chained
+    Car::new()
+        .color(&quot;white&quot;)
+        .brand(&quot;Lexus&quot;)
+        .model(&quot;LC&quot;)
+        .drive(60);
+        
+    // stepwise
+    let mut car = Car::new();
+    car.brand(&quot;Infinity&quot;).model(&quot;Q70L&quot;);
+    car.color(&quot;black&quot;);
+    car.drive(80);
+
+    // chained construction followed by ownership transfer
+    let car = Car::new()
+        .brand(&quot;Nissan&quot;)
+        .model(&quot;370Z&quot;)
+        .color(&quot;red&quot;)
+        .to_owned();
+    car.drive(120);
+}</code></pre>
+<pre><code>## Driving white Lexus LC at 60 km/h
+## Driving black Infinity Q70L at 80 km/h
+## Driving red Nissan 370Z at 120 km/h</code></pre>
+<p>In order to construct a <code>Car</code> by chaining builder methods and then bind this <code>Car</code> to a variable, <code>to_owned()</code> must be called at the end of the chain to convert the mutable reference to owned type, and this requires that the <code>ToOwned</code> trait is implemented by <code>Car</code>. Adding <code>#[derive(Clone)]</code> above the struct definition fulfills this.</p>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+
+</html>
+

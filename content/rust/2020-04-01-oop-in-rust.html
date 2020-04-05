@@ -1,0 +1,187 @@
+---
+title: OOP in Rust
+author: Tianyi Shi
+date: '2020-04-01'
+slug: oop-in-rust
+categories:
+  - rust
+tags:
+  - oop
+  - rust
+---
+
+
+
+<div id="example-post" class="section level1">
+<h1>Example: Post</h1>
+<div id="using-enum" class="section level2">
+<h2>Using Enum</h2>
+<pre class="rust"><code>enum PostState {
+    Draft,
+    PendingReview,
+    Published,
+}
+
+struct Post {
+    text: String,
+    state: PostState,
+}
+
+impl Post {
+    fn new() -&gt; Self {
+        Post {
+            text: String::new(),
+            state: PostState::Draft,
+        }
+    }
+    fn add_text(&amp;mut self, s: &amp;str) {
+        self.text.push_str(s)
+    }
+    fn request_review(&amp;mut self) {
+        self.state = PostState::PendingReview
+    }
+    fn approve(&amp;mut self) {
+        self.state = PostState::Published
+    }
+    fn content(&amp;self) -&gt; &amp;str {
+        if let PostState::Published = self.state {
+            &amp;self.text
+        } else {
+            &quot;&quot;
+        }
+    }
+}
+
+fn main() {
+    let mut post = Post::new();
+    post.add_text(&quot;I need sex.&quot;);
+    println!(&quot;content: {}&quot;, post.content());
+    post.request_review();
+    post.approve();
+    println!(&quot;content: {}&quot;, post.content());
+}</code></pre>
+<pre><code>## content: 
+## content: I need sex.</code></pre>
+</div>
+<div id="using-the-state-pattern" class="section level2">
+<h2>Using the State Pattern</h2>
+<pre class="rust"><code>trait State {
+    fn add_text(&amp;self, post: &amp;mut String, text: &amp;str) {
+        println!(&quot;Cannot add text!&quot;)
+    }
+    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
+    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
+    fn reject(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt;;
+    fn content&lt;&#39;a&gt;(&amp;self, post: &amp;&#39;a Post) -&gt; &amp;&#39;a str {
+        &quot;&quot;
+    }
+}
+
+struct Draft {}
+
+struct PendingReview {
+    count: usize,
+}
+
+struct Published {}
+
+impl State for Draft {
+    fn add_text(&amp;self, post: &amp;mut String, text: &amp;str) {
+        post.push_str(text)
+    }
+    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        Box::new(PendingReview { count: 0 })
+    }
+    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+    fn reject(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+}
+impl State for PendingReview {
+    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        let i = self.count + 1;
+        if i &gt; 1 {
+            Box::new(Published {})
+        } else {
+            Box::new(PendingReview { count: i })
+        }
+    }
+    fn reject(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        Box::new(Draft {})
+    }
+}
+impl State for Published {
+    fn request_review(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+    fn approve(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+    fn content&lt;&#39;a&gt;(&amp;self, post: &amp;&#39;a Post) -&gt; &amp;&#39;a str {
+        &amp;post.content
+    }
+    fn reject(self: Box&lt;Self&gt;) -&gt; Box&lt;dyn State&gt; {
+        self
+    }
+}
+
+struct Post {
+    state: Option&lt;Box&lt;dyn State&gt;&gt;,
+    content: String,
+}
+
+impl Post {
+    pub fn new() -&gt; Post {
+        Post {
+            state: Some(Box::new(Draft {})),
+            content: String::new(),
+        }
+    }
+    pub fn add_text(&amp;mut self, text: &amp;str) {
+        self.state
+            .as_ref()
+            .unwrap()
+            .add_text(&amp;mut self.content, text)
+    }
+    pub fn request_review(&amp;mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.request_review())
+        }
+    }
+    pub fn approve(&amp;mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.approve())
+        }
+    }
+    pub fn reject(&amp;mut self) {
+        if let Some(s) = self.state.take() {
+            self.state = Some(s.reject())
+        }
+    }
+    pub fn content(&amp;self) -&gt; &amp;str {
+        self.state.as_ref().unwrap().content(self)
+    }
+}
+
+fn main() {
+    let mut post = Post::new();
+    post.add_text(&quot;Hello world!&quot;);
+    println!(&quot;content: &#39;{}&#39;&quot;, post.content());
+    post.request_review();
+    post.reject();
+    post.request_review();
+    post.add_text(&quot;Hello?&quot;); // cannot add text
+    post.approve();
+    post.approve();
+    println!(&quot;content: &#39;{}&#39;&quot;, post.content());
+}</code></pre>
+<pre><code>## content: &#39;&#39;
+## Cannot add text!
+## content: &#39;Hello world!&#39;</code></pre>
+</div>
+</div>

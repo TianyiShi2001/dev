@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>polymorphism on Tianyi as a Developer</title>
+    <link>/tags/polymorphism/</link>
+    <description>Recent content in polymorphism on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/polymorphism/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Polymorphism in Rust Traits</title>
+      <link>/rust/polymorphism-in-rust-traits/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/polymorphism-in-rust-traits/</guid>
+      <description>The From and Into traits are good examples of polymorphism.
+If a trait uses a generic type T in its signature, such as in From:
+pub trait From&amp;lt;T&amp;gt;: Sized { fn from(_: T) -&amp;gt; Self; } then different ‘variants’ of the trait, where &amp;lt;T&amp;gt; is replaced with concrete types, can be implemented. Here is an example:
+struct Foo(i32); #[derive(Debug)] struct Bar(i32); impl From&amp;lt;i32&amp;gt; for Bar { fn from(n: i32) -&amp;gt; Self { Bar(n) } } impl&amp;lt;&amp;#39;a&amp;gt; From&amp;lt;&amp;amp;&amp;#39;a Foo&amp;gt; for Bar { fn from(foo: &amp;amp;Foo) -&amp;gt; Self { Bar(foo.</description>
+    </item>
+    
+  </channel>
+</rss>

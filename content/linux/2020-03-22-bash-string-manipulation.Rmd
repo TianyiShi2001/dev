@@ -10,22 +10,19 @@ tags:
   - linux
 ---
 
-
 # Bash String Variable Manipulation
 
 ## Substring by Index
 
-- `${var:start:length}`
-- index starts from 1; similar to awk's `substr()`
+- Syntax: `${var:start:length}`
+- index starts from 0 (unlike awk's `substr()`, which starts from 1)
 
 ```{bash}
-chars=123456789ABCDE
-echo ${chars:3}
-echo ${chars:1:2}
-echo ${chars:1:2}
-
+chars=0123456789ABCDE
+echo ${chars:3}   # chars[3] to end
+echo ${chars:1:0} # length=0 -> empty string
+echo ${chars:3:5} # chars[3:8]
 ```
-
 
 ## Stripping 
 
@@ -67,28 +64,11 @@ echo ${path/#foo/bar}                   # changing base dir only
 echo ${path/%txt/log}                   # changing exts only
 ```
 
-
-# awk
-
 # Exercises
 
 [Rotate for a max](https://www.codewars.com/kata/56a4872cbb65f3a610000026/solutions/shell)
 
-note: integer comparison overflow
-
-```{bash}
-max_rot() {
-  num=$1
-  l=${#num}
-  max=$num
-  for (( i=1; i<l; i++ )); do 
-    num=$(echo $num | awk -v i=$i -v l=$l '{print substr($0,1,i-1)substr($0,i+1,l-i+1)substr($0,i,1)}')
-    [[ $num > $max ]] && max=$num 
-  done
-  echo $max
-}
-max_rot 123456
-```
+using bash string subsetting:
 
 ```{bash}
 #!/bin/bash
@@ -102,6 +82,24 @@ max_rot() {
   done
   echo $max
   return 0
+}
+max_rot 123456
+```
+
+Note: integer comparison will result in overflow, therefore string comparison is used.
+
+awk version:
+
+```{bash}
+max_rot() {
+  num=$1
+  l=${#num}
+  max=$num
+  for (( i=1; i<l; i++ )); do 
+    num=$(echo $num | awk -v i=$i -v l=$l '{print substr($0,1,i-1)substr($0,i+1,l-i+1)substr($0,i,1)}')
+    [[ $num > $max ]] && max=$num 
+  done
+  echo $max
 }
 max_rot 123456
 ```

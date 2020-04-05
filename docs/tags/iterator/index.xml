@@ -17,7 +17,9 @@
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/rust/rust-iterators/</guid>
-      <description>hello</description>
+      <description>Methods on Iterators next()  Iterator Adaptors Iterator adaptors takes ownership of the iterator and returns another kind of iterator, which allows chaining. The commonly used adaptors are map(), filter(),
+The chain of iterators is lazy
+ Aggregation Functions fn main() { use Direction::*; println!( &amp;quot;{:?}&amp;quot;, dir_reduc(&amp;amp;[NORTH, SOUTH, EAST, WEST, NORTH, WEST]) ); } #[derive(PartialEq, Eq, Debug, Clone)] enum Direction { NORTH, SOUTH, EAST, WEST, } impl Direction { fn opposite(&amp;amp;self) -&amp;gt; Direction { match self { Direction::NORTH =&amp;gt; Direction::SOUTH, Direction::SOUTH =&amp;gt; Direction::NORTH, Direction::EAST =&amp;gt; Direction::WEST, Direction::WEST =&amp;gt; Direction::EAST, } } } fn dir_reduc(arr: &amp;amp;[Direction]) -&amp;gt; Vec&amp;lt;Direction&amp;gt; { let mut res: Vec&amp;lt;Direction&amp;gt; = vec!</description>
     </item>
     
   </channel>

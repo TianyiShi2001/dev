@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>PostSQL Administrative Commands - Tianyi as a Developer</title>
+<meta property="og:title" content="PostSQL Administrative Commands - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">PostSQL Administrative Commands</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<div id="user-management" class="section level1">
+<h1>User Management</h1>
+<div id="changing-password" class="section level2">
+<h2>Changing Password</h2>
+<ol style="list-style-type: decimal">
+<li>Edit <code>pg_hba.conf</code> to allow trust authorization temporarily</li>
+<li><code>pg_ctl reload</code> to reload the config file</li>
+<li>Connect and issue <code>ALTER ROLE postgres WITH PASSWORD 'newpassword';</code></li>
+<li>Edit <code>pg_hba.conf</code> again and restore the previous settings; <code>pg_ctl reload</code> again</li>
+</ol>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+
+</body>
+
+</html>
+

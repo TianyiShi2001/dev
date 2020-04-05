@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.59.0" />
+<meta name="generator" content="Hugo 0.67.1" />
 
 
 <title>Rust Iterators - Tianyi as a Developer</title>
@@ -19,6 +19,11 @@
 
 
 
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
 
 
 
@@ -72,7 +77,65 @@
       
 
 
-<p>hello</p>
+<div id="methods-on-iterators" class="section level1">
+<h1>Methods on Iterators</h1>
+<div id="next" class="section level2">
+<h2><code>next()</code></h2>
+</div>
+<div id="iterator-adaptors" class="section level2">
+<h2>Iterator Adaptors</h2>
+<p>Iterator adaptors takes ownership of the iterator and returns another kind of iterator, which allows chaining. The commonly used adaptors are <code>map()</code>, <code>filter()</code>,</p>
+<p>The chain of iterators is lazy</p>
+</div>
+<div id="aggregation-functions" class="section level2">
+<h2>Aggregation Functions</h2>
+<pre class="rust"><code>fn main() {
+    use Direction::*;
+    println!(
+        &quot;{:?}&quot;,
+        dir_reduc(&amp;[NORTH, SOUTH, EAST, WEST, NORTH, WEST])
+    );
+}
+
+#[derive(PartialEq, Eq, Debug, Clone)]
+enum Direction {
+    NORTH,
+    SOUTH,
+    EAST,
+    WEST,
+}
+
+impl Direction {
+    fn opposite(&amp;self) -&gt; Direction {
+        match self {
+            Direction::NORTH =&gt; Direction::SOUTH,
+            Direction::SOUTH =&gt; Direction::NORTH,
+            Direction::EAST =&gt; Direction::WEST,
+            Direction::WEST =&gt; Direction::EAST,
+        }
+    }
+}
+
+fn dir_reduc(arr: &amp;[Direction]) -&gt; Vec&lt;Direction&gt; {
+    let mut res: Vec&lt;Direction&gt; = vec![arr[0].clone()];
+    let mut del = 0;
+    for i in 1..arr.len() {
+        let dir = &amp;arr[i];
+        if *dir == arr[i - 1].opposite() {
+            res.pop();
+            del += 1;
+        } else {
+            res.push(dir.clone())
+        }
+    }
+    if del &gt; 0 {
+        return dir_reduc(&amp;res);
+    }
+    res
+}</code></pre>
+<pre><code>## [NORTH, WEST]</code></pre>
+</div>
+</div>
 
     </div>
   </article>
@@ -95,6 +158,22 @@
 </footer>
 
 </div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
 
 
 

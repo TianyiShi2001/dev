@@ -1,0 +1,82 @@
+---
+title: Creating Multidimensional Arrays in Javascript
+author: Tianyi Shi
+date: '2020-03-23'
+slug: js-ndarray
+categories:
+  - js
+tags:
+  - js
+  - tricks
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(comment = NA)
+```
+
+Initialising multidimensional arrays in Javascript can be tricky because some initialisation approches lead to unexpected behaviour due to shallow copying.
+
+# 2D Arrays (Matrices)
+
+If we try to create a 4 $\times$ 4 matrix by filling an empty array with 4 zero-filled arrays each with 4 zeros
+using the `Array(n).fill(e)` syntax:
+
+```{node}
+let arr = Array(4).fill(Array(4).fill(0));
+console.table(arr);
+```
+
+and then try to change the element $arr_{1,2}$:
+
+```{node, eval=FALSE}
+arr[1][2] = 1;
+console.table(arr);
+```
+
+```{node, echo=FALSE}
+let arr = Array(4).fill(Array(4).fill(0));
+arr[1][2] = 1;
+console.table(arr);
+```
+
+All elements in column 2 (`arr[0:3][2]`) get mutated, which hardly would be what you want. It appears that the `fill()` method used shallow copies of `[...Array(4).fill(0)]` to fill the outer array.
+
+A straightforward workaround is to serialise and de-serialise using `JSON.stringify()` and `JSON.parse()`:
+
+```{node}
+let arr = Array(4).fill(Array(4).fill(0));
+arr = JSON.parse(JSON.stringify(arr));
+arr[1][2] = 1;
+console.table(arr);
+```
+
+Now, only the single element `arr[1][2]` gets mutated.
+
+We can also use the following syntax to directly initialise a matrix whose elements can be properly mutated:
+
+```{node}
+let arr = Array.from({ length: 4}, e => Array(4).fill(0));
+arr[1][2] = 1;
+console.table(arr);
+```
+
+# Higher Dimensional Arrays
+
+The shallow-copying problem related to `Array(n).fill(e)` chaining also happens in 3D arrays:
+
+```{node}
+let arr = Array(3).fill(Array(3).fill(Array(3).fill(0)));
+arr[1][1][2] = 1;
+console.table(arr);
+```
+
+The same methods (`JSON.parse(JSON.stringify(arr))` and `Array.from()`) can be used to properly initialising them.
+
+```{node}
+let arr = Array.from(
+  { length: 3 }, e => Array.from(
+    { length: 3 }, e => Array(3).fill(0)));
+arr[1][1][2] = 1;
+console.table(arr);
+```
+

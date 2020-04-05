@@ -17,17 +17,16 @@ tags:
 <div id="substring-by-index" class="section level2">
 <h2>Substring by Index</h2>
 <ul>
-<li><code>${var:start:length}</code></li>
-<li>index starts from 1; similar to awk’s <code>substr()</code></li>
+<li>Syntax: <code>${var:start:length}</code></li>
+<li>index starts from 0 (unlike awk’s <code>substr()</code>, which starts from 1)</li>
 </ul>
-<pre class="bash"><code>chars=123456789ABCDE
-echo ${chars:3}
-echo ${chars:1:2}
-echo ${chars:1:2}
-</code></pre>
-<pre><code>## 456789ABCDE
-## 23
-## 23</code></pre>
+<pre class="bash"><code>chars=0123456789ABCDE
+echo ${chars:3}   # chars[3] to end
+echo ${chars:1:0} # length=0 -&gt; empty string
+echo ${chars:3:5} # chars[3:8]</code></pre>
+<pre><code>## 3456789ABCDE
+## 
+## 34567</code></pre>
 </div>
 <div id="stripping" class="section level2">
 <h2>Stripping</h2>
@@ -74,25 +73,10 @@ echo ${path/%txt/log}                   # changing exts only</code></pre>
 ## foo/foo_data/txt_files/bar.log</code></pre>
 </div>
 </div>
-<div id="awk" class="section level1">
-<h1>awk</h1>
-</div>
 <div id="exercises" class="section level1">
 <h1>Exercises</h1>
 <p><a href="https://www.codewars.com/kata/56a4872cbb65f3a610000026/solutions/shell">Rotate for a max</a></p>
-<p>note: integer comparison overflow</p>
-<pre class="bash"><code>max_rot() {
-  num=$1
-  l=${#num}
-  max=$num
-  for (( i=1; i&lt;l; i++ )); do 
-    num=$(echo $num | awk -v i=$i -v l=$l &#39;{print substr($0,1,i-1)substr($0,i+1,l-i+1)substr($0,i,1)}&#39;)
-    [[ $num &gt; $max ]] &amp;&amp; max=$num 
-  done
-  echo $max
-}
-max_rot 123456</code></pre>
-<pre><code>## 246351</code></pre>
+<p>using bash string subsetting:</p>
 <pre class="bash"><code>#!/bin/bash
 max_rot() {
   num=$1
@@ -104,6 +88,20 @@ max_rot() {
   done
   echo $max
   return 0
+}
+max_rot 123456</code></pre>
+<pre><code>## 246351</code></pre>
+<p>Note: integer comparison will result in overflow, therefore string comparison is used.</p>
+<p>awk version:</p>
+<pre class="bash"><code>max_rot() {
+  num=$1
+  l=${#num}
+  max=$num
+  for (( i=1; i&lt;l; i++ )); do 
+    num=$(echo $num | awk -v i=$i -v l=$l &#39;{print substr($0,1,i-1)substr($0,i+1,l-i+1)substr($0,i,1)}&#39;)
+    [[ $num &gt; $max ]] &amp;&amp; max=$num 
+  done
+  echo $max
 }
 max_rot 123456</code></pre>
 <pre><code>## 246351</code></pre>

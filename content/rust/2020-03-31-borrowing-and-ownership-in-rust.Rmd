@@ -1,0 +1,111 @@
+---
+title: Borrowing and Ownership in Rust
+author: Tianyi Shi
+date: '2020-03-31'
+slug: borrowing-and-ownership-in-rust
+categories:
+  - rust
+tags:
+  - pointer
+---
+
+
+## Slice
+
+Slices 
+
+```{rust, eval=FALSE}
+fn main() {
+    let mut x = [1, 2, 3, 4, 5];
+    let r = &mut x;
+    if let Some((first, rest)) = r.split_first_mut() {
+        *first = 100;
+        rest[0] = 99;
+        rest[1] = 98;
+    }
+    assert_eq!(x, [100, 99, 98, 4, 5])
+}
+
+```
+
+## Deref Coersion in Functions
+
+```{rust}
+fn main() {
+    let v = 5;
+    let r = &v;
+    let r2 = &r;
+    println!("{}, {}", is_five(r), is_five(r2))
+}
+
+fn is_five(val: &i32) -> bool {
+    *val == 5
+}
+```
+
+# Smart Pointers
+
+## Deref Coersion
+
+From *The Book*:
+
+> Deref coercion is a convenience that Rust performs on arguments to functions and methods. Deref coercion converts a reference to a type that implements Deref into a reference to a type that Deref can convert the original type into.
+
+That is to say, deref coersion can convert `&T` to `&U` when it needs to (especially when the type of an argument of a function call doesn't match), if `T` implements `Deref<Target=U>`.
+
+The following example shows how, after implementing `Deref<Target=T>` for `MyBox<T>`, `&MyBox<String>` can be converted to `&String`:
+
+```{rust}
+use std::ops::Deref;
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> { 
+  fn new(x: T) -> MyBox<T> { MyBox(x) } 
+}
+
+impl<T> Deref for MyBox<T> { 
+  type Target = T;
+  fn deref(&self) -> &T { &self.0 }
+}
+
+fn hello(name: &str) {
+  println!("Hello, {}!", name); 
+}
+
+fn main() { 
+  let m = MyBox::new(String::from("Rust")); 
+  hello(&m); 
+  hello(&(*m)); // desugared
+  hello(&(*m)[..]); // desugared * 2
+}
+```
+
+> When the Deref trait is defined for the types involved, Rust will analyze the types and use Deref::deref as many times as necessary to get a reference to match the parameter’s type. 
+
+Therefore, in the above case, `&MyBox<String>` is first coerced into `&(*MyBox<String>) = &(*(MyBox<String>.deref())) = &(*(&String)) = s&String`, and `&String` is coerced into `&str`. This is also why `&&&&T` behaves like `&T`, since `&(&T)` can be coerced to `&(&*T) = &T`.
+
+## Drop
+
+```{rust, message=FALSE}
+struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&mut self) {
+        println!("Dropping CustomSmartPointer with data `{}`!", self.data);
+    }
+}
+
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from("my stuff"),
+    };
+    let d = CustomSmartPointer {
+        data: String::from("other stuff"),
+    };
+    println!("CustomSmartPointers created.");
+}
+```
+

@@ -1,0 +1,95 @@
+---
+title: Creating Multidimensional Arrays in Javascript
+author: Tianyi Shi
+date: '2020-03-23'
+slug: js-ndarray
+categories:
+  - js
+tags:
+  - js
+  - tricks
+---
+
+
+
+<p>Initialising multidimensional arrays in Javascript can be tricky because some initialisation approches lead to unexpected behaviour due to shallow copying.</p>
+<div id="d-arrays-matrices" class="section level1">
+<h1>2D Arrays (Matrices)</h1>
+<p>If we try to create a 4 <span class="math inline">\(\times\)</span> 4 matrix by filling an empty array with 4 zero-filled arrays each with 4 zeros
+using the <code>Array(n).fill(e)</code> syntax:</p>
+<pre class="javascript"><code>let arr = Array(4).fill(Array(4).fill(0));
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬───┬───┬───┬───┐
+│ (index) │ 0 │ 1 │ 2 │ 3 │
+├─────────┼───┼───┼───┼───┤
+│    0    │ 0 │ 0 │ 0 │ 0 │
+│    1    │ 0 │ 0 │ 0 │ 0 │
+│    2    │ 0 │ 0 │ 0 │ 0 │
+│    3    │ 0 │ 0 │ 0 │ 0 │
+└─────────┴───┴───┴───┴───┘</code></pre>
+<p>and then try to change the element <span class="math inline">\(arr_{1,2}\)</span>:</p>
+<pre class="javascript"><code>arr[1][2] = 1;
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬───┬───┬───┬───┐
+│ (index) │ 0 │ 1 │ 2 │ 3 │
+├─────────┼───┼───┼───┼───┤
+│    0    │ 0 │ 0 │ 1 │ 0 │
+│    1    │ 0 │ 0 │ 1 │ 0 │
+│    2    │ 0 │ 0 │ 1 │ 0 │
+│    3    │ 0 │ 0 │ 1 │ 0 │
+└─────────┴───┴───┴───┴───┘</code></pre>
+<p>All elements in column 2 (<code>arr[0:3][2]</code>) get mutated, which hardly would be what you want. It appears that the <code>fill()</code> method used shallow copies of <code>[...Array(4).fill(0)]</code> to fill the outer array.</p>
+<p>A straightforward workaround is to serialise and de-serialise using <code>JSON.stringify()</code> and <code>JSON.parse()</code>:</p>
+<pre class="javascript"><code>let arr = Array(4).fill(Array(4).fill(0));
+arr = JSON.parse(JSON.stringify(arr));
+arr[1][2] = 1;
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬───┬───┬───┬───┐
+│ (index) │ 0 │ 1 │ 2 │ 3 │
+├─────────┼───┼───┼───┼───┤
+│    0    │ 0 │ 0 │ 0 │ 0 │
+│    1    │ 0 │ 0 │ 1 │ 0 │
+│    2    │ 0 │ 0 │ 0 │ 0 │
+│    3    │ 0 │ 0 │ 0 │ 0 │
+└─────────┴───┴───┴───┴───┘</code></pre>
+<p>Now, only the single element <code>arr[1][2]</code> gets mutated.</p>
+<p>We can also use the following syntax to directly initialise a matrix whose elements can be properly mutated:</p>
+<pre class="javascript"><code>let arr = Array.from({ length: 4}, e =&gt; Array(4).fill(0));
+arr[1][2] = 1;
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬───┬───┬───┬───┐
+│ (index) │ 0 │ 1 │ 2 │ 3 │
+├─────────┼───┼───┼───┼───┤
+│    0    │ 0 │ 0 │ 0 │ 0 │
+│    1    │ 0 │ 0 │ 1 │ 0 │
+│    2    │ 0 │ 0 │ 0 │ 0 │
+│    3    │ 0 │ 0 │ 0 │ 0 │
+└─────────┴───┴───┴───┴───┘</code></pre>
+</div>
+<div id="higher-dimensional-arrays" class="section level1">
+<h1>Higher Dimensional Arrays</h1>
+<p>The shallow-copying problem related to <code>Array(n).fill(e)</code> chaining also happens in 3D arrays:</p>
+<pre class="javascript"><code>let arr = Array(3).fill(Array(3).fill(Array(3).fill(0)));
+arr[1][1][2] = 1;
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬─────────────┬─────────────┬─────────────┐
+│ (index) │      0      │      1      │      2      │
+├─────────┼─────────────┼─────────────┼─────────────┤
+│    0    │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │
+│    1    │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │
+│    2    │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │ [ 0, 0, 1 ] │
+└─────────┴─────────────┴─────────────┴─────────────┘</code></pre>
+<p>The same methods (<code>JSON.parse(JSON.stringify(arr))</code> and <code>Array.from()</code>) can be used to properly initialising them.</p>
+<pre class="javascript"><code>let arr = Array.from(
+  { length: 3 }, e =&gt; Array.from(
+    { length: 3 }, e =&gt; Array(3).fill(0)));
+arr[1][1][2] = 1;
+console.table(arr);</code></pre>
+<pre><code>┌─────────┬─────────────┬─────────────┬─────────────┐
+│ (index) │      0      │      1      │      2      │
+├─────────┼─────────────┼─────────────┼─────────────┤
+│    0    │ [ 0, 0, 0 ] │ [ 0, 0, 0 ] │ [ 0, 0, 0 ] │
+│    1    │ [ 0, 0, 0 ] │ [ 0, 0, 1 ] │ [ 0, 0, 0 ] │
+│    2    │ [ 0, 0, 0 ] │ [ 0, 0, 0 ] │ [ 0, 0, 0 ] │
+└─────────┴─────────────┴─────────────┴─────────────┘</code></pre>
+</div>

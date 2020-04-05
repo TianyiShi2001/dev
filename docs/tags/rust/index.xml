@@ -6,10 +6,50 @@
     <description>Recent content in rust on Tianyi as a Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 19 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/rust/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Constructors of Rust structs</title>
+      <link>/rust/constructors-of-rust-structs/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/constructors-of-rust-structs/</guid>
+      <description>The new() Method The new() method is nothing special but it’s idiomatically used to initialise a new instance of a struct with empty fields, for example:
+#[derive(Debug)] struct Car&amp;lt;&amp;#39;a&amp;gt; { brand: &amp;amp;&amp;#39;a str, model: &amp;amp;&amp;#39;a str, color: &amp;amp;&amp;#39;a str, } impl&amp;lt;&amp;#39;a&amp;gt; Car&amp;lt;&amp;#39;a&amp;gt; { fn new() -&amp;gt; Self { Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot;, } } } fn main(){ println!(&amp;quot;{:?}&amp;quot;, Car::new()) } ## Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot; }  Builder Methods For structs with many fields (some of which may be optional), it’s common to define a number of builder methods to construct them.</description>
+    </item>
+    
+    <item>
+      <title>Closures in Rust</title>
+      <link>/rust/closures-in-rust/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/closures-in-rust/</guid>
+      <description>Using Closures and Functions as Arguments fn apply&amp;lt;F&amp;gt;(f: F) where F: Fn() { f(); } fn apply_mut&amp;lt;F&amp;gt;(mut f: F) where F: FnMut() { f(); } fn apply_once&amp;lt;F&amp;gt;(f: F) where F: FnOnce() { f(); } fn main() { use std::mem; let mut greeting = &amp;quot;hello&amp;quot;.to_owned(); let farewell = &amp;quot;goodbye&amp;quot;; // Capture 2 variables: `greeting` by value and // `farewell` by reference. let diary = || { println!(&amp;quot;Fn: {}, {}&amp;quot;, greeting, farewell); }; apply(diary); apply_mut(diary); apply_once(diary); // dyn Fn actually implements all Fn, FnMut and FnOnce // try &amp;amp;T, then &amp;amp;mut T, then T let diary_mut = || { greeting.</description>
+    </item>
+    
+    <item>
+      <title>OOP in Rust</title>
+      <link>/rust/oop-in-rust/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/oop-in-rust/</guid>
+      <description>Example: Post Using Enum enum PostState { Draft, PendingReview, Published, } struct Post { text: String, state: PostState, } impl Post { fn new() -&amp;gt; Self { Post { text: String::new(), state: PostState::Draft, } } fn add_text(&amp;amp;mut self, s: &amp;amp;str) { self.text.push_str(s) } fn request_review(&amp;amp;mut self) { self.state = PostState::PendingReview } fn approve(&amp;amp;mut self) { self.state = PostState::Published } fn content(&amp;amp;self) -&amp;gt; &amp;amp;str { if let PostState::Published = self.state { &amp;amp;self.</description>
+    </item>
+    
+    <item>
+      <title>Polymorphism in Rust Traits</title>
+      <link>/rust/polymorphism-in-rust-traits/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/polymorphism-in-rust-traits/</guid>
+      <description>The From and Into traits are good examples of polymorphism.
+If a trait uses a generic type T in its signature, such as in From:
+pub trait From&amp;lt;T&amp;gt;: Sized { fn from(_: T) -&amp;gt; Self; } then different ‘variants’ of the trait, where &amp;lt;T&amp;gt; is replaced with concrete types, can be implemented. Here is an example:
+struct Foo(i32); #[derive(Debug)] struct Bar(i32); impl From&amp;lt;i32&amp;gt; for Bar { fn from(n: i32) -&amp;gt; Self { Bar(n) } } impl&amp;lt;&amp;#39;a&amp;gt; From&amp;lt;&amp;amp;&amp;#39;a Foo&amp;gt; for Bar { fn from(foo: &amp;amp;Foo) -&amp;gt; Self { Bar(foo.</description>
+    </item>
     
     <item>
       <title>Rust Iterators</title>
@@ -17,7 +57,9 @@
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/rust/rust-iterators/</guid>
-      <description>hello</description>
+      <description>Methods on Iterators next()  Iterator Adaptors Iterator adaptors takes ownership of the iterator and returns another kind of iterator, which allows chaining. The commonly used adaptors are map(), filter(),
+The chain of iterators is lazy
+ Aggregation Functions fn main() { use Direction::*; println!( &amp;quot;{:?}&amp;quot;, dir_reduc(&amp;amp;[NORTH, SOUTH, EAST, WEST, NORTH, WEST]) ); } #[derive(PartialEq, Eq, Debug, Clone)] enum Direction { NORTH, SOUTH, EAST, WEST, } impl Direction { fn opposite(&amp;amp;self) -&amp;gt; Direction { match self { Direction::NORTH =&amp;gt; Direction::SOUTH, Direction::SOUTH =&amp;gt; Direction::NORTH, Direction::EAST =&amp;gt; Direction::WEST, Direction::WEST =&amp;gt; Direction::EAST, } } } fn dir_reduc(arr: &amp;amp;[Direction]) -&amp;gt; Vec&amp;lt;Direction&amp;gt; { let mut res: Vec&amp;lt;Direction&amp;gt; = vec!</description>
     </item>
     
   </channel>

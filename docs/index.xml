@@ -6,19 +6,98 @@
     <description>Recent content on Tianyi as a Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 May 2016 21:48:51 -0700</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Tricks in Javascript</title>
-      <link>/js/tricks-in-javascript/</link>
+      <title>Parsing Escaped Quotes in Serde</title>
+      <link>/2020/04/05/parsing-escaped-quotes-in-serde/</link>
+      <pubDate>Sun, 05 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/2020/04/05/parsing-escaped-quotes-in-serde/</guid>
+      <description>library(stringr) use serde::Deserialize; use std::borrow::Cow; #[derive(Deserialize, Debug)] struct Comment&amp;lt;&amp;#39;a&amp;gt; { id: u32, text: Cow&amp;lt;&amp;#39;a, str&amp;gt;, } fn main() { let data: Vec&amp;lt;Comment&amp;gt; = serde_json::from_str( r#&amp;quot; [ { &amp;quot;id&amp;quot;: 345213, &amp;quot;text&amp;quot;: &amp;quot;Hello world!&amp;quot; }, { &amp;quot;id&amp;quot;: 2412345, &amp;quot;text&amp;quot;: &amp;quot;This is a double quote: \&amp;quot;&amp;quot; } ] &amp;quot;#, ) .unwrap(); println!( &amp;quot;{}&amp;quot;, data[1].text //.iter().map(|entry| entry.id).collect::&amp;lt;Vec&amp;lt;_&amp;gt;&amp;gt;() ); } The problem is that this deserilise into a borrowed string, then the lifetime of that borrowed string is tied to the input of the JSON string, and moreover, presumably must correspond to a substring of the original JSON.</description>
+    </item>
+    
+    <item>
+      <title>Constructors of Rust structs</title>
+      <link>/rust/constructors-of-rust-structs/</link>
+      <pubDate>Sat, 04 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/constructors-of-rust-structs/</guid>
+      <description>The new() Method The new() method is nothing special but it’s idiomatically used to initialise a new instance of a struct with empty fields, for example:
+#[derive(Debug)] struct Car&amp;lt;&amp;#39;a&amp;gt; { brand: &amp;amp;&amp;#39;a str, model: &amp;amp;&amp;#39;a str, color: &amp;amp;&amp;#39;a str, } impl&amp;lt;&amp;#39;a&amp;gt; Car&amp;lt;&amp;#39;a&amp;gt; { fn new() -&amp;gt; Self { Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot;, } } } fn main(){ println!(&amp;quot;{:?}&amp;quot;, Car::new()) } ## Car { brand: &amp;quot;&amp;quot;, model: &amp;quot;&amp;quot;, color: &amp;quot;&amp;quot; }  Builder Methods For structs with many fields (some of which may be optional), it’s common to define a number of builder methods to construct them.</description>
+    </item>
+    
+    <item>
+      <title>Closures in Rust</title>
+      <link>/rust/closures-in-rust/</link>
+      <pubDate>Thu, 02 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/closures-in-rust/</guid>
+      <description>Using Closures and Functions as Arguments fn apply&amp;lt;F&amp;gt;(f: F) where F: Fn() { f(); } fn apply_mut&amp;lt;F&amp;gt;(mut f: F) where F: FnMut() { f(); } fn apply_once&amp;lt;F&amp;gt;(f: F) where F: FnOnce() { f(); } fn main() { use std::mem; let mut greeting = &amp;quot;hello&amp;quot;.to_owned(); let farewell = &amp;quot;goodbye&amp;quot;; // Capture 2 variables: `greeting` by value and // `farewell` by reference. let diary = || { println!(&amp;quot;Fn: {}, {}&amp;quot;, greeting, farewell); }; apply(diary); apply_mut(diary); apply_once(diary); // dyn Fn actually implements all Fn, FnMut and FnOnce // try &amp;amp;T, then &amp;amp;mut T, then T let diary_mut = || { greeting.</description>
+    </item>
+    
+    <item>
+      <title>OOP in Rust</title>
+      <link>/rust/oop-in-rust/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/oop-in-rust/</guid>
+      <description>Example: Post Using Enum enum PostState { Draft, PendingReview, Published, } struct Post { text: String, state: PostState, } impl Post { fn new() -&amp;gt; Self { Post { text: String::new(), state: PostState::Draft, } } fn add_text(&amp;amp;mut self, s: &amp;amp;str) { self.text.push_str(s) } fn request_review(&amp;amp;mut self) { self.state = PostState::PendingReview } fn approve(&amp;amp;mut self) { self.state = PostState::Published } fn content(&amp;amp;self) -&amp;gt; &amp;amp;str { if let PostState::Published = self.state { &amp;amp;self.</description>
+    </item>
+    
+    <item>
+      <title>Polymorphism in Rust Traits</title>
+      <link>/rust/polymorphism-in-rust-traits/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/polymorphism-in-rust-traits/</guid>
+      <description>The From and Into traits are good examples of polymorphism.
+If a trait uses a generic type T in its signature, such as in From:
+pub trait From&amp;lt;T&amp;gt;: Sized { fn from(_: T) -&amp;gt; Self; } then different ‘variants’ of the trait, where &amp;lt;T&amp;gt; is replaced with concrete types, can be implemented. Here is an example:
+struct Foo(i32); #[derive(Debug)] struct Bar(i32); impl From&amp;lt;i32&amp;gt; for Bar { fn from(n: i32) -&amp;gt; Self { Bar(n) } } impl&amp;lt;&amp;#39;a&amp;gt; From&amp;lt;&amp;amp;&amp;#39;a Foo&amp;gt; for Bar { fn from(foo: &amp;amp;Foo) -&amp;gt; Self { Bar(foo.</description>
+    </item>
+    
+    <item>
+      <title>Borrowing and Ownership in Rust</title>
+      <link>/rust/borrowing-and-ownership-in-rust/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/borrowing-and-ownership-in-rust/</guid>
+      <description>Slice Slices
+fn main() { let mut x = [1, 2, 3, 4, 5]; let r = &amp;amp;mut x; if let Some((first, rest)) = r.split_first_mut() { *first = 100; rest[0] = 99; rest[1] = 98; } assert_eq!(x, [100, 99, 98, 4, 5]) }   Deref Coersion in Functions fn main() { let v = 5; let r = &amp;amp;v; let r2 = &amp;amp;r; println!(&amp;quot;{}, {}&amp;quot;, is_five(r), is_five(r2)) } fn is_five(val: &amp;amp;i32) -&amp;gt; bool { *val == 5 } ## true, true  Smart Pointers Deref Coersion From The Book:</description>
+    </item>
+    
+    <item>
+      <title>PostSQL Administrative Commands</title>
+      <link>/sql/postsql-administrative-commands/</link>
+      <pubDate>Tue, 31 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/sql/postsql-administrative-commands/</guid>
+      <description> User Management Changing Password Edit pg_hba.conf to allow trust authorization temporarily pg_ctl reload to reload the config file Connect and issue ALTER ROLE postgres WITH PASSWORD &#39;newpassword&#39;; Edit pg_hba.conf again and restore the previous settings; pg_ctl reload again    </description>
+    </item>
+    
+    <item>
+      <title>Default Parameters &amp; Optional Arguments in Rust</title>
+      <link>/rust/default-parameters-optional-arguments-in-rust/</link>
+      <pubDate>Tue, 24 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/rust/default-parameters-optional-arguments-in-rust/</guid>
+      <description>In Rust’s std docs, there is an example of using unwrap_or() to mimic a default parameter:
+use std::fmt; struct Vector2D { x: isize, y: isize, } impl fmt::Binary for Vector2D { fn fmt(&amp;amp;self, f: &amp;amp;mut fmt::Formatter) -&amp;gt; fmt::Result { let magnitude = (self.x * self.x + self.y * self.y) as f64; let magnitude = magnitude.sqrt(); let decimals = f.precision().unwrap_or(3); let string = format!(&amp;quot;{:.*}&amp;quot;, decimals, magnitude); f.pad_integral(true, &amp;quot;&amp;quot;, &amp;amp;string) } } fn main() { let myvector = Vector2D { x: 3, y: 4 }; println!</description>
+    </item>
+    
+    <item>
+      <title>Creating Multidimensional Arrays in Javascript</title>
+      <link>/js/js-ndarray/</link>
       <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
       
-      <guid>/js/tricks-in-javascript/</guid>
-      <description>If we fill an empty array with 4 zero-filled:
-let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] = 1; console.log(arr); ## [ [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ], [ 0, 0, 0, 0 ] ] ## [ [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ], [ 0, 0, 1, 0 ] ] let arr = Array.</description>
+      <guid>/js/js-ndarray/</guid>
+      <description>Initialising multidimensional arrays in Javascript can be tricky because some initialisation approches lead to unexpected behaviour due to shallow copying.
+2D Arrays (Matrices) If we try to create a 4 \(\times\) 4 matrix by filling an empty array with 4 zero-filled arrays each with 4 zeros using the Array(n).fill(e) syntax:
+let arr = Array(4).fill(Array(4).fill(0)); console.table(arr); ┌─────────┬───┬───┬───┬───┐ │ (index) │ 0 │ 1 │ 2 │ 3 │ ├─────────┼───┼───┼───┼───┤ │ 0 │ 0 │ 0 │ 0 │ 0 │ │ 1 │ 0 │ 0 │ 0 │ 0 │ │ 2 │ 0 │ 0 │ 0 │ 0 │ │ 3 │ 0 │ 0 │ 0 │ 0 │ └─────────┴───┴───┴───┴───┘ and then try to change the element \(arr_{1,2}\):</description>
     </item>
     
     <item>
@@ -27,7 +106,7 @@ let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] 
       <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/linux/bash-string-manipulation/</guid>
-      <description>Bash String Variable Manipulation Substring by Index  ${var:start:length} index starts from 1; similar to awk’s substr()  chars=123456789ABCDE echo ${chars:3} echo ${chars:1:2} echo ${chars:1:2}  ## 456789ABCDE ## 23 ## 23  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
+      <description>Bash String Variable Manipulation Substring by Index  Syntax: ${var:start:length} index starts from 0 (unlike awk’s substr(), which starts from 1)  chars=0123456789ABCDE echo ${chars:3} # chars[3] to end echo ${chars:1:0} # length=0 -&amp;gt; empty string echo ${chars:3:5} # chars[3:8] ## 3456789ABCDE ## ## 34567  Stripping  # and ##: stripping the shortest/longest match from start % and %%: stripping the shortest/longest match from end  path=foo/bar/hello.txt echo ${path#*/} echo ${path##*/} # get filename echo ${path%/*} # get dir echo ${path%%/*} ## bar/hello.</description>
     </item>
     
     <item>
@@ -45,7 +124,9 @@ let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] 
       <pubDate>Thu, 19 Mar 2020 00:00:00 +0000</pubDate>
       
       <guid>/rust/rust-iterators/</guid>
-      <description>hello</description>
+      <description>Methods on Iterators next()  Iterator Adaptors Iterator adaptors takes ownership of the iterator and returns another kind of iterator, which allows chaining. The commonly used adaptors are map(), filter(),
+The chain of iterators is lazy
+ Aggregation Functions fn main() { use Direction::*; println!( &amp;quot;{:?}&amp;quot;, dir_reduc(&amp;amp;[NORTH, SOUTH, EAST, WEST, NORTH, WEST]) ); } #[derive(PartialEq, Eq, Debug, Clone)] enum Direction { NORTH, SOUTH, EAST, WEST, } impl Direction { fn opposite(&amp;amp;self) -&amp;gt; Direction { match self { Direction::NORTH =&amp;gt; Direction::SOUTH, Direction::SOUTH =&amp;gt; Direction::NORTH, Direction::EAST =&amp;gt; Direction::WEST, Direction::WEST =&amp;gt; Direction::EAST, } } } fn dir_reduc(arr: &amp;amp;[Direction]) -&amp;gt; Vec&amp;lt;Direction&amp;gt; { let mut res: Vec&amp;lt;Direction&amp;gt; = vec!</description>
     </item>
     
     <item>
@@ -58,16 +139,6 @@ let arr = [...Array(4).fill([...Array(4).fill(0)])] console.log(arr); arr[1][2] 
 Basic Functions Current Date/Time Current time:
 SELECT NOW();  Table 1: 1 records  now    2020-03-23 00:13:29     Current date:
 today() ## [1] &amp;quot;2020-03-23&amp;quot; as_date(now()) ## [1] &amp;quot;2020-03-23&amp;quot; SELECT current_time;  Table 2: 1 records  current_time    00:13:29.623558     SELECT NOW()::DATE;  Table 3: 1 records  now    2020-03-23       Addition and Subtraction In R, durations are always stored in seconds.</description>
-    </item>
-    
-    <item>
-      <title>Version Control in Node</title>
-      <link>/node/version-control-in-node/</link>
-      <pubDate>Wed, 04 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/node/version-control-in-node/</guid>
-      <description>Use npx
-References https://stackoverflow.com/questions/52174381/yarn-not-installing-in-nvm-version-node-version</description>
     </item>
     
     <item>

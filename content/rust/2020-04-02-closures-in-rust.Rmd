@@ -1,0 +1,114 @@
+---
+title: Closures in Rust
+author: Tianyi Shi
+date: '2020-04-02'
+slug: closures-in-rust
+categories:
+  - rust
+tags:
+  - rust
+  - function
+  - closure
+  - functional programming
+---
+
+# Using Closures and Functions as Arguments
+
+```{rust}
+fn apply<F>(f: F) where
+    F: Fn() {
+    f();
+}
+
+fn apply_mut<F>(mut f: F) where
+    F: FnMut() {
+    f();
+}
+
+fn apply_once<F>(f: F) where
+    F: FnOnce() {
+    f();
+}
+
+fn main() {
+    use std::mem;
+
+    let mut greeting = "hello".to_owned();
+    let farewell = "goodbye";
+
+    // Capture 2 variables: `greeting` by value and
+    // `farewell` by reference.
+    let diary = || {
+        println!("Fn: {}, {}", greeting, farewell);
+    };
+    apply(diary);
+    apply_mut(diary);
+    apply_once(diary);
+    // dyn Fn actually implements all Fn, FnMut and FnOnce
+    // try &T, then &mut T, then T
+
+    let diary_mut = || {
+        greeting.push_str(" world");
+        println!("FnMut: {}, {}", greeting, farewell);
+    };
+    apply_mut(diary_mut);
+
+    let diary_once = || {
+        greeting.push_str("!!!");
+        println!("FnMut: {}, {}", greeting, farewell);
+        mem::drop(greeting);
+    };
+    apply_once(diary_once);
+    // println!("{}", greeting); // won't work; moved
+    println!("{}", farewell)
+}
+```
+
+
+# Returning Closures
+
+- closure types are anonymous, thus we return `impl Trait`, where `Trait` is one of `Fn`, `FnMut`, or `FnOnce`.
+- the `move` keyword must be used, to move the variables defined in the factory function (closure maker) into the closure.
+
+```{rust}
+fn make_suffix(suffix: &str) -> impl Fn(&str) -> String {
+    let suffix = suffix.to_owned();
+    move |s| {
+        let mut s = s.to_owned();
+        s.push_str(" ");
+        s.push_str(&suffix);
+        s
+    }
+}
+
+fn make_prefix_mut(prefix: &str) -> impl FnMut(&str) -> String {
+    let mut prefix = prefix.to_owned();
+    move |s| {
+        prefix.push_str(" ");
+        prefix.push_str(s);
+        prefix.clone()
+    }
+}
+
+fn make_prefix_once(prefix: &str) -> impl FnOnce(&str) -> String {
+    let mut prefix = prefix.to_owned();
+    move |s| {
+        prefix.push_str(" ");
+        prefix.push_str(s);
+        prefix
+    }
+}
+
+fn main() {
+    let suffix_caplets = make_suffix("caplets");
+    let drug = suffix_caplets("ibuprofen");
+    println!("I have been prescribed some {}.", &drug);
+    let mut prefix_her = make_prefix_mut("her");
+    let item = prefix_her("laptop");
+    println!("This is {}.", &item);
+    let prefix_my = make_prefix_once("my");
+    let item = prefix_my("biochemistry textbooks");
+    println!("These are {}.", &item);
+}
+```
+

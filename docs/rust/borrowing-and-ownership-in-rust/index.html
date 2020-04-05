@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.67.1" />
+
+
+<title>Borrowing and Ownership in Rust - Tianyi as a Developer</title>
+<meta property="og:title" content="Borrowing and Ownership in Rust - Tianyi as a Developer">
+
+
+  <link href='/favicon.ico' rel='icon' type='image/x-icon'/>
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/TianyiShi2001">GitHub</a></li>
+    
+    <li><a href="/js/">JS</a></li>
+    
+    <li><a href="/python/">Python</a></li>
+    
+    <li><a href="/r/">R</a></li>
+    
+    <li><a href="/rust/">Rust</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+
+    <h1 class="article-title">Borrowing and Ownership in Rust</h1>
+
+    
+
+    <div class="article-content">
+      
+
+
+<div id="slice" class="section level2">
+<h2>Slice</h2>
+<p>Slices</p>
+<pre class="rust"><code>fn main() {
+    let mut x = [1, 2, 3, 4, 5];
+    let r = &amp;mut x;
+    if let Some((first, rest)) = r.split_first_mut() {
+        *first = 100;
+        rest[0] = 99;
+        rest[1] = 98;
+    }
+    assert_eq!(x, [100, 99, 98, 4, 5])
+}
+</code></pre>
+</div>
+<div id="deref-coersion-in-functions" class="section level2">
+<h2>Deref Coersion in Functions</h2>
+<pre class="rust"><code>fn main() {
+    let v = 5;
+    let r = &amp;v;
+    let r2 = &amp;r;
+    println!(&quot;{}, {}&quot;, is_five(r), is_five(r2))
+}
+
+fn is_five(val: &amp;i32) -&gt; bool {
+    *val == 5
+}</code></pre>
+<pre><code>## true, true</code></pre>
+</div>
+<div id="smart-pointers" class="section level1">
+<h1>Smart Pointers</h1>
+<div id="deref-coersion" class="section level2">
+<h2>Deref Coersion</h2>
+<p>From <em>The Book</em>:</p>
+<blockquote>
+<p>Deref coercion is a convenience that Rust performs on arguments to functions and methods. Deref coercion converts a reference to a type that implements Deref into a reference to a type that Deref can convert the original type into.</p>
+</blockquote>
+<p>That is to say, deref coersion can convert <code>&amp;T</code> to <code>&amp;U</code> when it needs to (especially when the type of an argument of a function call doesn’t match), if <code>T</code> implements <code>Deref&lt;Target=U&gt;</code>.</p>
+<p>The following example shows how, after implementing <code>Deref&lt;Target=T&gt;</code> for <code>MyBox&lt;T&gt;</code>, <code>&amp;MyBox&lt;String&gt;</code> can be converted to <code>&amp;String</code>:</p>
+<pre class="rust"><code>use std::ops::Deref;
+
+struct MyBox&lt;T&gt;(T);
+
+impl&lt;T&gt; MyBox&lt;T&gt; { 
+  fn new(x: T) -&gt; MyBox&lt;T&gt; { MyBox(x) } 
+}
+
+impl&lt;T&gt; Deref for MyBox&lt;T&gt; { 
+  type Target = T;
+  fn deref(&amp;self) -&gt; &amp;T { &amp;self.0 }
+}
+
+fn hello(name: &amp;str) {
+  println!(&quot;Hello, {}!&quot;, name); 
+}
+
+fn main() { 
+  let m = MyBox::new(String::from(&quot;Rust&quot;)); 
+  hello(&amp;m); 
+  hello(&amp;(*m)); // desugared
+  hello(&amp;(*m)[..]); // desugared * 2
+}</code></pre>
+<pre><code>## Hello, Rust!
+## Hello, Rust!
+## Hello, Rust!</code></pre>
+<blockquote>
+<p>When the Deref trait is defined for the types involved, Rust will analyze the types and use Deref::deref as many times as necessary to get a reference to match the parameter’s type.</p>
+</blockquote>
+<p>Therefore, in the above case, <code>&amp;MyBox&lt;String&gt;</code> is first coerced into <code>&amp;(*MyBox&lt;String&gt;) = &amp;(*(MyBox&lt;String&gt;.deref())) = &amp;(*(&amp;String)) = s&amp;String</code>, and <code>&amp;String</code> is coerced into <code>&amp;str</code>. This is also why <code>&amp;&amp;&amp;&amp;T</code> behaves like <code>&amp;T</code>, since <code>&amp;(&amp;T)</code> can be coerced to <code>&amp;(&amp;*T) = &amp;T</code>.</p>
+</div>
+<div id="drop" class="section level2">
+<h2>Drop</h2>
+<pre class="rust"><code>struct CustomSmartPointer {
+    data: String,
+}
+
+impl Drop for CustomSmartPointer {
+    fn drop(&amp;mut self) {
+        println!(&quot;Dropping CustomSmartPointer with data `{}`!&quot;, self.data);
+    }
+}
+
+fn main() {
+    let c = CustomSmartPointer {
+        data: String::from(&quot;my stuff&quot;),
+    };
+    let d = CustomSmartPointer {
+        data: String::from(&quot;other stuff&quot;),
+    };
+    println!(&quot;CustomSmartPointers created.&quot;);
+}</code></pre>
+<pre><code>## CustomSmartPointers created.
+## Dropping CustomSmartPointer with data `other stuff`!
+## Dropping CustomSmartPointer with data `my stuff`!</code></pre>
+</div>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+<footer class="footer">
+  <ul class="footer-links">
+    <li>
+      <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+    </li>
+    <li>
+      <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png"
+          alt="Img link to Hugo website" width="22" height="22"></a>
+    </li>
+  </ul>
+</footer>
+
+</div>
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/rust.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+
+</body>
+
+</html>
+
