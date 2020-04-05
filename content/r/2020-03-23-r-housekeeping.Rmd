@@ -1,0 +1,48 @@
+---
+title: 'R Housekeeping'
+author: Tianyi Shi
+date: '2020-03-23'
+slug: r-housekeeping
+categories:
+  - r
+tags:
+  - housekeeping
+---
+
+This post is to remind myself of some not-so-common, but very useful operations in R. 
+
+
+
+# `.Rprofile` and `.Renviron`
+
+## Options
+
+## Setting `PATH` in `.Renviron`
+
+RStudio has a different `PATH` from bash's, which can lead `command not found` when calling `system()` or `system2()`. You can set the `PATH` for RStudio in `.Renviron` file like this:
+
+```{}
+PATH=/additional/path:${PATH}
+```
+
+Note that curly braces are required. 
+
+# Package Management
+
+## Installing Local Packages:
+
+First, open the R Project of the package in RStudio. At the **Build** panel, first 'Check' and then 'Build Source Package'
+
+Then, at the command line:
+
+```{bash eval=FALSE}
+R CMD INSTALL /path/to/package.tar.gz && rm /path/to/package.tar.gz
+```
+
+Alternatively, using **devtools**:
+
+```{r eval=FALSE}
+devtools::install_local('/path/to/package')
+```
+
+

@@ -1,0 +1,37 @@
+---
+title: 'R Housekeeping'
+author: Tianyi Shi
+date: '2020-03-23'
+slug: r-housekeeping
+categories:
+  - r
+tags:
+  - housekeeping
+---
+
+
+
+<p>This post is to remind myself of some not-so-common, but very useful operations in R.</p>
+<div id="rprofile-and-.renviron" class="section level1">
+<h1><code>.Rprofile</code> and <code>.Renviron</code></h1>
+<div id="options" class="section level2">
+<h2>Options</h2>
+</div>
+<div id="setting-path-in-.renviron" class="section level2">
+<h2>Setting <code>PATH</code> in <code>.Renviron</code></h2>
+<p>RStudio has a different <code>PATH</code> from bash’s, which can lead <code>command not found</code> when calling <code>system()</code> or <code>system2()</code>. You can set the <code>PATH</code> for RStudio in <code>.Renviron</code> file like this:</p>
+<pre><code>PATH=/additional/path:${PATH}</code></pre>
+<p>Note that curly braces are required.</p>
+</div>
+</div>
+<div id="package-management" class="section level1">
+<h1>Package Management</h1>
+<div id="installing-local-packages" class="section level2">
+<h2>Installing Local Packages:</h2>
+<p>First, open the R Project of the package in RStudio. At the <strong>Build</strong> panel, first ‘Check’ and then ‘Build Source Package’</p>
+<p>Then, at the command line:</p>
+<pre class="bash"><code>R CMD INSTALL /path/to/package.tar.gz &amp;&amp; rm /path/to/package.tar.gz</code></pre>
+<p>Alternatively, using <strong>devtools</strong>:</p>
+<pre class="r"><code>devtools::install_local(&#39;/path/to/package&#39;)</code></pre>
+</div>
+</div>

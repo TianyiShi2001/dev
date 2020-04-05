@@ -20,5 +20,17 @@
       <description> User Management Changing Password Edit pg_hba.conf to allow trust authorization temporarily pg_ctl reload to reload the config file Connect and issue ALTER ROLE postgres WITH PASSWORD &#39;newpassword&#39;; Edit pg_hba.conf again and restore the previous settings; pg_ctl reload again    </description>
     </item>
     
+    <item>
+      <title>R Housekeeping</title>
+      <link>/r/r-housekeeping/</link>
+      <pubDate>Mon, 23 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/r/r-housekeeping/</guid>
+      <description>This post is to remind myself of some not-so-common, but very useful operations in R.
+.Rprofile and .Renviron Options  Setting PATH in .Renviron RStudio has a different PATH from bash’s, which can lead command not found when calling system() or system2(). You can set the PATH for RStudio in .Renviron file like this:
+PATH=/additional/path:${PATH} Note that curly braces are required.
+  Package Management Installing Local Packages: First, open the R Project of the package in RStudio.</description>
+    </item>
+    
   </channel>
 </rss>

@@ -23,6 +23,11 @@
   </url>
   
   <url>
+    <loc>/categories/r/</loc>
+    <lastmod>2020-04-05T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/categories/rust/</loc>
     <lastmod>2020-04-05T00:00:00+00:00</lastmod>
   </url>
@@ -58,12 +63,12 @@
   </url>
   
   <url>
-    <loc>/tags/rust/</loc>
+    <loc>/r/</loc>
     <lastmod>2020-04-04T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/rust/</loc>
+    <loc>/tags/rust/</loc>
     <lastmod>2020-04-04T00:00:00+00:00</lastmod>
   </url>
   
@@ -143,7 +148,17 @@
   </url>
   
   <url>
+    <loc>/r/adding-support-for-rust-in-knitr-r-markdown/</loc>
+    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/js/js-ndarray/</loc>
+    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/r/fancy-knitr/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
@@ -159,6 +174,16 @@
   
   <url>
     <loc>/categories/js/</loc>
+    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/knitr/</loc>
+    <lastmod>2020-03-23T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/r/r-housekeeping/</loc>
     <lastmod>2020-03-23T00:00:00+00:00</lastmod>
   </url>
   
