@@ -6,10 +6,20 @@
     <description>Recent content in js on Tianyi as a Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/js/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Javascript Async Examples</title>
+      <link>/js/javascript-async/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/js/javascript-async/</guid>
+      <description>Error propagatioon It is not necessary to
+async function foo() { let rand = ~~(Math.random() * 10); if (rand % 2) { return &amp;quot;Hello&amp;quot;; } else throw Error(&amp;quot;Error at foo!&amp;quot;); } async function bar() { let x = await foo(); x += &amp;quot; world&amp;quot;; return x; } async function baz() { let y = await bar(); y += &amp;quot;!!!&amp;quot;; return y; } let a = 0; (async () =&amp;gt; { for (let i = 0; i &amp;lt; 10; i++) { try { res = await baz(); console.</description>
+    </item>
     
     <item>
       <title>Creating Multidimensional Arrays in Javascript</title>

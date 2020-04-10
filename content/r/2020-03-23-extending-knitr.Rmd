@@ -1,0 +1,102 @@
+---
+title: Extending knitr
+author: Tianyi Shi
+date: '2020-03-23'
+slug: extending-knitr
+categories:
+  - r
+tags:
+  - knitr
+---
+
+Many R users use [R Markdown](https://rmarkdown.rstudio.com) to author documents, often containing R code, that can be seamlessly rendered into various output formats (usually PDF and HTML) with a single click or keyboard shortcut. Ordered R markdown documents can be converted into books and websites (for example the one you're now reading!) with a few lines of command, thanks to Yihui's [**bookdown**](https://bookdown.org) and [**blogdown**](https://bookdown.org/yihui/blogdown/) packages. The conversion from markdown to other formats is actually mostly done by [pandoc](https://pandoc.org), but R Markdown it much more than a wrapper around pandoc. 
+
+The most important feature of R Markdown is being able to execute code chunks and format their output. Here is an example:
+
+```{r}
+runif(10)
+```
+
+In the source `.Rmd` file, I only need to write the code, and the result is automatically generated. You can also include R plots easily:
+
+```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
+par(mar = c(0, 1, 0, 1))
+pie(
+  c(280, 60, 20),
+  c('Sky', 'Sunny side of pyramid', 'Shady side of pyramid'),
+  col = c('#0292D8', '#F7EA39', '#C4B632'),
+  init.angle = -50, border = NA
+)
+```
+
+What I wrote in source `.Rmd` file is simply:
+
+
+<pre><code>```{r pie, fig.cap='A fancy pie chart.', tidy=FALSE}
+par(mar = c(0, 1, 0, 1))
+pie(
+  ...
+```</code></pre>
+
+You can insert a map, using the [**leaflet**](https://rstudio.github.io/leaflet/) package:
+
+```{r out.width='100%', echo=FALSE}
+library(leaflet)
+leaflet() %>% addTiles() %>%
+  setView(-1.254120, 51.751580, zoom = 17) %>%
+  addPopups(
+    -1.254120, 51.751580,
+    'Here I study at <b>Oriel College</b>, Oxford!'
+  )
+```
+
+You can even write some functions in c++ in one code block...
+
+```{Rcpp}
+#include <Rcpp.h>
+
+// [[Rcpp::export]]
+int fibonacci(const int x) {
+  if (x == 0 || x == 1) return(x);
+  return (fibonacci(x-1) + fibonacci(x - 2));
+}
+```
+
+and use them later, in other R code chunks! 
+
+```{r}
+fibonacci(10L)
+```
+
+The code rendering magic is backended by the **knitr** package. If you write R markdown in RStudio IDE, you might have noticed that Python/SQL/Bash/Rcpp/D3/Stan code chunks can also be run, but chances are you haven't discovered that many other languages are also supported (although with limited features). The following commmand lists all languages available:
+
+```{r}
+names(knitr::knit_engines$get())
+```
+
+Let's write some javascript, for example:
+
+```{node}
+console.log({result: "hello world"})
+```
+
+Compiled languages? No problem!
+
+```{go engine.path="/usr/local/go/bin/go"}
+package main
+import "fmt"
+func main() {
+  fmt.Println("Hello world!")
+}
+```
+
+These are generally achieved by evaluating the code in the code chunk using the corresponding engine (e.g. `node` for javascript) in the shell and formatting the output retrieved from stdout. Many languages allow evaluation from code strings (typically with a `-c` or `-e` flag) and thus evaluating their code chunks in R markdown is straightforward. For other (usually compiled) languages, the strategy is typically copying code into a temporary file, compiling it, executing the binary, retrieving the output and unlinking the files on finish.
+
+The most apparent use case of this capability is writing blog posts, or taking notes on programming[^war]. Recently, I embark on learning [Rust](https://www.rust-lang.org/), a modern systems programming language that has been the [Stack Overflow's most loved language](https://stackoverflow.blog/2020/01/20/what-is-rust-and-why-is-it-so-popular/) for 4 years in a row. I want to make notes on Rust using R markdown as I did on javascript and R. However, as of 23 March 2020, **knitr** does not support rust. Therefore I hacked into **knitr**'s source code and made it work. For details see this PR: https://github.com/yihui/knitr/pull/1823 .
+
+to be continued...
+
+[^war]: Here is an interesting blog post on Notebooks written by Yihui Xie: [The First Notebook War](https://yihui.org/en/2018/09/notebook-war/#the-two-cultures-the-r-vs-python-culture-or-data-analysis-vs-software-engineering-culture)
+
+
+

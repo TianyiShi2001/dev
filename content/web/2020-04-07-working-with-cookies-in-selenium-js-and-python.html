@@ -1,0 +1,40 @@
+---
+title: Working with Cookies in Selenium, Axios, Fetch and Requests
+author: Tianyi Shi
+date: '2020-04-07'
+slug: working-with-cookies-in-selenium-js-and-python
+categories:
+  - js
+  - web
+  - python
+  - selenium
+tags:
+  - automation
+  - cookies
+  - selenium
+  - web
+---
+
+
+
+<p>Must navigate to the page before cookies can be used.</p>
+<p>Adding cookies before navigating to the domain are called domain-less cookies which i believe is not possible.</p>
+<p><a href="https://stackoverflow.com/questions/45842709/unable-to-set-cookies-in-selenium-webdriver" class="uri">https://stackoverflow.com/questions/45842709/unable-to-set-cookies-in-selenium-webdriver</a></p>
+<pre class="javascript"><code>async example() {
+  let driver = await new Builder().forBrowser(&quot;chrome&quot;).build();
+  try {
+    cookies = JSON.fs.readFileSync(&#39;cookies&#39;)
+    await driver.get(&quot;https://link.springer.com/referenceworkentry/10.1007/978-3-319-77093-2_14-1&quot;);
+    for (cookie of cookies) {
+      await driver.manage().addCookie(cookie);
+    }
+    driver.navigate().refresh();
+    await driver.wait(() =&gt; false, 10000000);
+  } finally {
+    await driver.quit();
+  }
+};</code></pre>
+<div id="axios-and-fetch" class="section level1">
+<h1>Axios and fetch</h1>
+<p><a href="https://codewithhugo.com/pass-cookies-axios-fetch-requests/#pass-cookies-with-requests-in-axios" class="uri">https://codewithhugo.com/pass-cookies-axios-fetch-requests/#pass-cookies-with-requests-in-axios</a></p>
+</div>

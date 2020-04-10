@@ -6,10 +6,32 @@
     <description>Recent content in js on Tianyi as a Developer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Mar 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/js/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Javascript Async Examples</title>
+      <link>/js/javascript-async/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/js/javascript-async/</guid>
+      <description>Error propagatioon It is not necessary to
+async function foo() { let rand = ~~(Math.random() * 10); if (rand % 2) { return &amp;quot;Hello&amp;quot;; } else throw Error(&amp;quot;Error at foo!&amp;quot;); } async function bar() { let x = await foo(); x += &amp;quot; world&amp;quot;; return x; } async function baz() { let y = await bar(); y += &amp;quot;!!!&amp;quot;; return y; } let a = 0; (async () =&amp;gt; { for (let i = 0; i &amp;lt; 10; i++) { try { res = await baz(); console.</description>
+    </item>
+    
+    <item>
+      <title>Working with Cookies in Selenium, Axios, Fetch and Requests</title>
+      <link>/web/working-with-cookies-in-selenium-js-and-python/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/web/working-with-cookies-in-selenium-js-and-python/</guid>
+      <description>Must navigate to the page before cookies can be used.
+Adding cookies before navigating to the domain are called domain-less cookies which i believe is not possible.
+https://stackoverflow.com/questions/45842709/unable-to-set-cookies-in-selenium-webdriver
+async example() { let driver = await new Builder().forBrowser(&amp;quot;chrome&amp;quot;).build(); try { cookies = JSON.fs.readFileSync(&amp;#39;cookies&amp;#39;) await driver.get(&amp;quot;https://link.springer.com/referenceworkentry/10.1007/978-3-319-77093-2_14-1&amp;quot;); for (cookie of cookies) { await driver.manage().addCookie(cookie); } driver.navigate().refresh(); await driver.wait(() =&amp;gt; false, 10000000); } finally { await driver.quit(); } }; Axios and fetch https://codewithhugo.com/pass-cookies-axios-fetch-requests/#pass-cookies-with-requests-in-axios</description>
+    </item>
     
     <item>
       <title>Creating Multidimensional Arrays in Javascript</title>

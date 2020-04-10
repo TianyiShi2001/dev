@@ -1,0 +1,43 @@
+---
+title: Working with Cookies in Selenium, Axios, Fetch and Requests
+author: Tianyi Shi
+date: '2020-04-07'
+slug: working-with-cookies-in-selenium-js-and-python
+categories:
+  - js
+  - web
+  - python
+  - selenium
+tags:
+  - automation
+  - cookies
+  - selenium
+  - web
+---
+
+Must navigate to the page before cookies can be used.
+
+Adding cookies before navigating to the domain are called domain-less cookies which i believe is not possible.
+
+https://stackoverflow.com/questions/45842709/unable-to-set-cookies-in-selenium-webdriver
+
+```{node, eval=FALSE}
+async example() {
+  let driver = await new Builder().forBrowser("chrome").build();
+  try {
+    cookies = JSON.fs.readFileSync('cookies')
+    await driver.get("https://link.springer.com/referenceworkentry/10.1007/978-3-319-77093-2_14-1");
+    for (cookie of cookies) {
+      await driver.manage().addCookie(cookie);
+    }
+    driver.navigate().refresh();
+    await driver.wait(() => false, 10000000);
+  } finally {
+    await driver.quit();
+  }
+};
+```
+
+# Axios and fetch
+
+https://codewithhugo.com/pass-cookies-axios-fetch-requests/#pass-cookies-with-requests-in-axios

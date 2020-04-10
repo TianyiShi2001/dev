@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>python on Tianyi as a Developer</title>
+    <link>/categories/python/</link>
+    <description>Recent content in python on Tianyi as a Developer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 07 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Working with Cookies in Selenium, Axios, Fetch and Requests</title>
+      <link>/web/working-with-cookies-in-selenium-js-and-python/</link>
+      <pubDate>Tue, 07 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>/web/working-with-cookies-in-selenium-js-and-python/</guid>
+      <description>Must navigate to the page before cookies can be used.
+Adding cookies before navigating to the domain are called domain-less cookies which i believe is not possible.
+https://stackoverflow.com/questions/45842709/unable-to-set-cookies-in-selenium-webdriver
+async example() { let driver = await new Builder().forBrowser(&amp;quot;chrome&amp;quot;).build(); try { cookies = JSON.fs.readFileSync(&amp;#39;cookies&amp;#39;) await driver.get(&amp;quot;https://link.springer.com/referenceworkentry/10.1007/978-3-319-77093-2_14-1&amp;quot;); for (cookie of cookies) { await driver.manage().addCookie(cookie); } driver.navigate().refresh(); await driver.wait(() =&amp;gt; false, 10000000); } finally { await driver.quit(); } }; Axios and fetch https://codewithhugo.com/pass-cookies-axios-fetch-requests/#pass-cookies-with-requests-in-axios</description>
+    </item>
+    
+  </channel>
+</rss>

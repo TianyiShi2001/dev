@@ -1,0 +1,62 @@
+---
+title: Javascript Async Examples
+author: Tianyi Shi
+date: '2020-04-07'
+slug: javascript-async
+categories:
+  - js
+tags:
+  - js
+  - async
+---
+
+
+
+<div id="error-propagatioon" class="section level1">
+<h1>Error propagatioon</h1>
+<p>It is not necessary to</p>
+<pre class="javascript"><code>async function foo() {
+  let rand = ~~(Math.random() * 10);
+  if (rand % 2) {
+    return &quot;Hello&quot;;
+  } else throw Error(&quot;Error at foo!&quot;);
+}
+
+async function bar() {
+  let x = await foo();
+  x += &quot; world&quot;;
+  return x;
+}
+
+async function baz() {
+  let y = await bar();
+  y += &quot;!!!&quot;;
+  return y;
+}
+
+let a = 0;
+
+(async () =&gt; {
+  for (let i = 0; i &lt; 10; i++) {
+    try {
+      res = await baz();
+      console.log(res);
+    } catch (e) {
+      a++;
+      console.error(e.message) // e.name, e.stack
+    }
+  }
+  console.log(a);
+})();</code></pre>
+<pre><code>## Hello world!!!
+## Error at foo!
+## Error at foo!
+## Hello world!!!
+## Error at foo!
+## Error at foo!
+## Error at foo!
+## Hello world!!!
+## Error at foo!
+## Error at foo!
+## 7</code></pre>
+</div>
